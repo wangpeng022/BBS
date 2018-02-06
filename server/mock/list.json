@@ -1,0 +1,644 @@
+{
+  "success": true,
+  "data": [{
+    "id": "5a54a8a4afa0a121784a8ab0",
+    "author_id": "54009f5ccd66f2eb37190485",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>很抱歉在首届蚂蚁体验科技 SEE Conf 大会上，给大家讲得有点磕绊不太清楚。今天写下来行诸文字，希望一些思考能与大家进一步交流。（设计师朋友可以跳过前端技术部分，直接看后面章节）</p>\n<h2>什么是前端技术</h2>\n<p>第一次接触前端开发是 2002 年大学期间，转眼 15 年多。这些年一直在思考一个问题：究竟什么是前端技术？很长很长一段时间，前端技术的定义非常清晰，就是浏览器端的 HTML、CSS、JS 技术。我们用这些技术做出各种各样的页面，我们是离用户最近的程序员。</p>\n<p><img src=\"//dn-cnode.qbox.me/FuTZzCUKkL_OGOsmrXbXvcqalO-D\" alt=\"v2-356e4bb976792ec0c2ae166405e4b502_hd.jpg\"></p>\n<p>记得 2009 年开始接触 Node，很快前端技术开始爆炸性增长。最开始的变化，是前端压缩工具从基于 Java 的 YUI Compressor 开始切换到基于 Node 实现的 UglifyJS 等工具。除了前端工具上的一路狂奔，在服务端领域也出现了 Express 等框架，前端开始通过 Node 完成服务端模板甚至整个 MVC 层的开发。在蚂蚁金服，服务端层我们更多把 Node 定位为 BFF 层实现，BFF 是 Backend For Frontend 的缩写，翻译成用户体验适配层。</p>\n<p>BFF 模式下，整体分工很清晰，后端通过 Java 等语言负责服务实现，理想情况下给前端提供的是基于领域模型的 RPC 接口，前端则在 BFF 层直接调用服务端 RPC 接口拿到数据，按需加工消费数据，并实现人机交互。基于 BFF 模式的研发，很适合拥有前端技术背景的全栈型工程师。这种模式的好处很明显，后端可以专注于业务领域，更多从领域模型的视角去思考问题，页面视角的数据则交给前端型全栈工程师去搞定。领域模型与页面数据是两种思维模式，通过 BFF 可以很好地解耦开，让彼此更专业高效。</p>\n<p>除了服务端的渗透，从 2013 年开始，阿里开始无线 ALL IN 战略，这对前端影响非常大。有相当多的前端开始转型为 iOS 工程师（转型为 Android 的比较少，有部分 Java 工程师转型成了 Android 开发），没有转型的，也开始大量投入到 Mobile Web 开发。这个大背景下，前端与客户端技术开始互相融合，特别是在容器层。从 2015 年开始，物联网 IoT 逐步兴起，前端开始涉足 IoT 设备上的应用研发。端的本质是 devices，台式机、手机、IoT 设备都是一台台 devices，很多会直接被用户使用，有用户使用的 devices，就会有人机交互需求，就会有前端的工作价值。前端是离用户最近的工程师，这个定位一直没变。</p>\n<p>非常有意思的是，在移动端的架构里，这几年也出现了基于 RPC 接口 + 网关 + BFF 的架构体系，在研发效率、网络性能等方面均有优势。随着 IoT 应用的涌现与复杂化，我相信最终也会出现 BFF 架构。BFF 模式不仅仅是一种技术架构，从社会分工角度讲，BFF 更是一种多元价值导向的分层架构，每一层都有不错的空间去施展，不仅能发挥工业社会双手的作用，还能使用上双手上面的脑袋。齿轮不再是被动跟着转，而是开始拥有自驱的转动力。同一时期，业界也出现了一些类似的职业融合。比如 DevOps 倡导开发也懂运维，不少大公司在推行开发也懂测试，测试则转型为更专业的质量工具部门，还有前端也懂设计的 DesignOps 的出现等等。各种全栈概念的涌现，都是在重新探索更合理的分层协作模式。纷纷扰扰，成败如风。</p>\n<p>补充一个说明，当年提出的前后端分离，并不准确，这些年一直努力纠正为前后端分层的理念。专业的分工协同对效能的提升很关键。全栈的含义是指分层演化后，每一层的技术栈要求，是每一层横向技能的全，而不是纵向跨层的通（纵向跨多层都能通的人才非常少，就如当今社会已经非常难诞生博物学家了）。不断探索更好的分层协作是有意思的，这就如人类家庭里夫妻的关系一样，男权、女权都不可取，社会的演化最终会视人为人，每个个体平等、自由，社会会以一种必然的不可阻挡的形态往前演进。</p>\n<p>回到前端发展历史，前面说了这么多，只说了一件事，前后端分层协作的各种模式。协作的边界是数据，后端提供数据服务接口，前端消费数据实现人机交互。不同模式下，BaaS（Backend as a Service）的含义各有不同。在 BFF 模式下，由于 BFF 层的运维部署需要，前端还需负责 BFF 层的 PaaS 平台建设。不同模式下的工程体系各有不同，工程的本质是让一群人做好一堆事，涉及代码规范、协作流程、运维部署、性能与安全等很多领域，这里不再一一展开。</p>\n<p>服务端 Node 与各种终端的涌现，让前端进入了大前端范畴，这时候的前端，已远远不只是浏览器端的页面实现技术，而是后端服务与人机界面的连接器。</p>\n<p><img src=\"//dn-cnode.qbox.me/Fgj5HsTiql9rambFQbhDg8t49tw3\" alt=\"v2-374230208f31483237155e80d46f1c0d_hd.jpg\"></p>\n<h2>什么是体验科技</h2>\n<p>我属于无线 ALL IN 战略中，选择留下来继续做 PC Web 的前端。虽然公司重点转向无线，但 PC 业务一直没停。随着近几年整个阿里集团“大中台、小前台”的策略，越来越多的企业级中后台产品处于兵荒马乱阶段，设计师非常缺失，随手一抓，都是大量体验比较糟心的产品。这过程中，越来越感觉什么地方有问题，一定在某些点上我们没做好。当时没多想，就想着既然缺设计师，我们就尝试去招聘。于是体验技术部开始拥有了设计师，非常艰辛的起步，非常感激的是，虽然艰辛，但找到了一些与我一样坚信中后台产品价值的设计师。一旦有了设计师，整个中后台产品的用户体验，一下子就提升上来了。</p>\n<p><img src=\"//dn-cnode.qbox.me/FvNAdF0m7cCZlevYQDFThuRYxvbz\" alt=\"v2-54abf60cd133916e016343ae4adaf376_hd.jpg\"></p>\n<p>设计团队的融入，日常的各种碰撞交流，让我的思维发生了很大变化。前端技术再牛，都很难直接解决产品层的用户体验。对中后台产品来说，设计的价值也远远不止于让产品的颜值提升，设计的更多更多价值，在于深入到产品的业务逻辑里去，去帮助业务梳理产品信息架构与任务流程。用户体验是一个非常综合的事，需要各种专业人士在同一个产品上聚焦发力，一起共同努力才能真正提升产品体验。设计师在这个过程中很痛苦，很多中后台产品都是非常垂直领域的业务产品，中间件、ECS、ODPS 等一堆堆专业术语让设计师们痛苦不堪，幸运的是，我们扛了过来。</p>\n<p><img src=\"//dn-cnode.qbox.me/Fk5n__QHurYmZawYh6-UXJ5Ox0Tv\" alt=\"v2-9b693a1affab86f96e24e0bee03b3e90_hd.jpg\"></p>\n<p>接下来的故事，在今天各个讲师的分享里，不少都有提及。整个团队的重心，开始非常清晰地往几个方向发展：</p>\n<ul>\n<li>TWA 方向：这是比 BFF 更大的概念，上午不四的分享里有详细阐述，可参考 知乎专栏文章 。TWA 是 Techless Web App 的缩写，是一种技术理念，希望越来越多的开发者，可以不用再关注流程、构建、环境、部署等各种事，希望能做到技术无感化（Techless），让每一位开发着能安安静静的快乐编码。</li>\n<li>UI 智能化方向：Ant Design 是一个设计体系，antd 是 Ant Design 的 React 实现。这几年 antd 的发展，不仅让前端编码更快更爽了，同时让一个历史悠久但生生不息的领域重燃希望：是否存在人机交互界面智能可视化搭建的可能？这个领域，这一两年在阿里内部非常火，各种搭建产品层出不穷，目前都还处于比较垂直的领域，泛化到行业级通用的产品还没怎么出现。我们也开始尝试，而且我们相信天时地利人和，一定能折腾出点什么，正在努力中，或许在下次 SEE Conf 大会中会展示给大家。</li>\n<li>数据可视化方向：下午绝云和御术的分享，相信大家对 G2 和 AntV 已经有了一个整体了解。可视化方向我们是从 2014 年开始正式投入人员去做，最开始的想法来自科幻片，大家如果喜欢看科幻片的话，会留意到各种人机交互界面都是各种可视化效果了，很少很少有传统网页。可视化是个历史非常悠久的领域，我们小学时学会的乘法竖式，就是一种可视化，可以帮助我们减少记忆成本，同时提升计算速度。</li>\n<li>图形互动化方向： 上午好修和景夫有分享，这一块才开始一年多，是我们非常笃定的一个方向。很多小孩，对书本都比较抗拒，但对游戏有着天生的喜爱。蚂蚁森林让大家从表单形式的公益，变成了互动游戏型的公益。越来越多的人机交互形式，会是有互动交互的图形界面。应用的泛互动化，是一个很大趋势。支付宝是个生活服务平台，各种生活服务的互动有趣化，一定是更有吸引力的。</li>\n</ul>\n<p><img src=\"//dn-cnode.qbox.me/Fui53ymFhJc0JS0IA0ZXqUvBNFiQ\" alt=\"v2-6830ebf2ca603dca8bd33723d73220e3_hd.jpg\"></p>\n<p>看更远的未来，我相信对体验科技来说，自然化和虚拟化会是两个大趋势。</p>\n<p>我现在在分享这个 PPT，要翻页时，需要点击键盘按钮，为什么电脑不能直接理解我的意图而自动翻页呢？比如我只要头往下示意一下，就能自然而然翻到下一页。我们现在很多行为，跳脱出来看，能发现很多很多不自然。天猫精灵等各种智能音箱，真正去用时，离自然交互还有比较远的距离。Ant Design 设计价值观里，最最重要的就是自然价值观，一切才刚刚开始探索。</p>\n<p>再说虚拟化。虚拟化不仅仅指 AR、VR 等技术，看过黑客帝国、西部世界等科幻片的，会对虚拟化有更多体感。如果以后每个小孩出生时，就会被植入一个能五感俱全的芯片，这种情况下，我们的人机交互会是怎么样的。太多可能性与挑战在等着我们。</p>\n<p>这一切都是体验科技，是技术与设计的融合，是服务与用户连接，是下图中的一个公式。</p>\n<p><img src=\"//dn-cnode.qbox.me/Fh5rgc3RVIRYuQYZSXMdKlBKlfnB\" alt=\"v2-773def061a6dd38cd97c52f040da29cc_hd.jpg\"></p>\n<p><img src=\"//dn-cnode.qbox.me/FpueJ6H7sBiB7kVsLORMYQpjDClK\" alt=\"v2-e4186cd37a1f978abbf64970dee50ba9_hd.jpg\"></p>\n<p>体验科技是 UX = f(services) 这个公式，能将各种各种的 services（后端服务） 通过技术与设计的融合，转变成体验一流的用户产品。这个公式的一个实现，就是蚂蚁体验云。蚂蚁体验云的初心，是希望能帮助有梦想的你，将一个个优秀的想法，通过体验云实现成一个个终端产品。\n<img src=\"//dn-cnode.qbox.me/FjtnnNqNeyh5rH4MTreunWUgsNgj\" alt=\"v2-ab3eae986630f436d1c6b751f4a8d895_hd.jpg\"></p>\n<p>体验云才刚刚起步，目前已在内部服务蚂蚁金服、阿里巴巴集团，同时快速孵化出了云凤蝶、语雀、小钱袋等创新产品。虽然还很不完善，但我们希望能尽快与用户一起成长。很多激动人心的事正在发生，通过体验科技的开放，我们希望着能为世界带来更多平等的机会。\n<img src=\"//dn-cnode.qbox.me/FgGx0MFi9k0eJAeLX3icMz6YLD9v\" alt=\"v2-98323a7d1c563df55151451066a7709e_hd.jpg\"></p>\n<p>感谢聆听，期待交流。</p>\n<p>附 SEE Conf 演讲视频： <a href=\"http://v.youku.com/v_show/id_XMzMwMzg2MDIwOA==.html\">优酷地址 </a></p>\n<p>最后，演讲 PPT 已精心整理并转换为 PDF 上传至<a href=\"http://yuque.com/seeconf\"> SEE Conf 语雀在线知识库</a>，欢迎下载（请 注册语雀，个人描述内注明 #知乎seeconf# 便可快速申请邀请码，登录后即可下载）</p>\n</div>",
+    "title": "玉伯《从前端技术到体验科技（附演讲视频）》",
+    "last_reply_at": "2018-02-03T06:23:59.189Z",
+    "good": false,
+    "top": true,
+    "reply_count": 23,
+    "visit_count": 8058,
+    "create_at": "2018-01-09T11:33:56.183Z",
+    "author": {
+      "loginname": "i5ting",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3118295?v=4&s=120"
+    }
+  }, {
+    "id": "592917b59e32cc84569a7458",
+    "author_id": "54009f5ccd66f2eb37190485",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>本来提供开发api，目的是为了开发第三方应用或客户端，如果大家用来学习也是好的，但现在很多人太过分了，随意发帖，at，严重影响了社区的用户，故而决定开始严查</p>\n<p>以下情况，直接封号</p>\n<ul>\n<li>测试标题</li>\n<li>无任何内容</li>\n<li>无意义回复</li>\n<li>测试帖，5分钟内没有删除</li>\n</ul>\n<p>欢迎大家监督</p>\n<p>封号</p>\n<ul>\n<li><a href=\"https://cnodejs.org/user/Mwangzhi\">https://cnodejs.org/user/Mwangzhi</a></li>\n<li><a href=\"https://cnodejs.org/user/lw6395\">https://cnodejs.org/user/lw6395</a></li>\n<li><a href=\"https://cnodejs.org/user/shengliang74\">https://cnodejs.org/user/shengliang74</a>  竟然挑衅，发帖说你来打我呀。。。。</li>\n<li><a href=\"https://cnodejs.org/user/h5-17\">https://cnodejs.org/user/h5-17</a> <a href=\"/user/h5-17\">@h5-17</a></li>\n<li><a href=\"https://cnodejs.org/user/592php\">https://cnodejs.org/user/592php</a> <a href=\"/user/592php\">@592php</a></li>\n</ul>\n<hr>\n<p>20170601更新</p>\n<p><a href=\"https://cnodejs.org/?tab=dev\">https://cnodejs.org/?tab=dev</a>  目前开了一个『客户端测试』专区，以后开发新客户端的同学，帖子直接发到这个专区去。tab 的值是 dev。</p>\n<p><img src=\"//dn-cnode.qbox.me/FundjyBuYk60yqQ-PdKstrPKY-7-\" alt=\"image.png\"></p>\n</div>",
+    "title": "测试请发到客户端测试专区，违规影响用户的，直接封号",
+    "last_reply_at": "2018-02-02T03:34:23.236Z",
+    "good": false,
+    "top": true,
+    "reply_count": 150,
+    "visit_count": 38597,
+    "create_at": "2017-05-27T06:07:49.278Z",
+    "author": {
+      "loginname": "i5ting",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3118295?v=4&s=120"
+    }
+  }, {
+    "id": "5a2403226190c8912ebaceeb",
+    "author_id": "4f447c2f0a8abae26e01b27d",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p><img src=\"//dn-cnode.qbox.me/FhSNYCv6Ab9wzT6aUSfKLa0GtP4w\" alt=\"image.png\"></p>\n<blockquote>\n<p>原文地址：知乎专栏 <a href=\"https://zhuanlan.zhihu.com/p/31640541\">https://zhuanlan.zhihu.com/p/31640541</a></p>\n</blockquote>\n<p>给大家介绍下，Egg 2.0 正式版，今天 12.3 冒泡啦，距 3.21 的 <a href=\"https://zhuanlan.zhihu.com/p/25860846\">Egg 1.0 版本</a> 时隔 8 个月。</p>\n<p><img src=\"//dn-cnode.qbox.me/FrC_ZbrhyLkhVIquPOsMqPhvqsHX\" alt=\"image.png\"></p>\n<blockquote>\n<p><a href=\"https://eggjs.org/\">Egg</a> 是阿里 Node.js 的核心基础框架，面向『企业级的 Web 基础框架』这个领域，提供了「微内核 + 插件机制 + 框架定制能力」，完美达成生态共建和差异化定制的平衡点。<br>\n既适合个人小项目快速开发，也适合团队架构师基于自身的技术架构在 Egg 基础上扩展出适合特定团队业务场景的框架。<br>\n它沉淀自阿里在各行各业不同领域的大规模工程实践经验，稳定支撑了多年天猫双11大促，顶级流量压力。</p>\n</blockquote>\n<h2>2.0 特性</h2>\n<ul>\n<li>基于 Koa 2.x\n<ul>\n<li>异步解决方案直接基于 Async Function 。</li>\n<li>去除 co 兼容后<a href=\"https://github.com/eggjs/egg/wiki/co-vs-async\">堆栈信息更清晰</a>。</li>\n</ul>\n</li>\n<li>框架层优化带来 <a href=\"https://eggjs.github.io/benchmark/plot/\">30% 左右的性能提升</a>，不含 Node 8 带来的提升。</li>\n<li>为了方便开发者快速升级，保持了对 Egg 1.x 以及 generator function 的兼容。</li>\n</ul>\n<p><img src=\"//dn-cnode.qbox.me/Fuf5DkXMxM7wfClcN6B6LzX5d18Q\" alt=\"image.png\"></p>\n<h2>如何升级</h2>\n<p><strong><a href=\"https://eggjs.org/\">Egg</a> 的理念之一是渐进式增强，故我们为开发者提供渐进升级的体验。</strong></p>\n<ol>\n<li>Node.js 使用最新的 LTS 版本（&gt;=8.9.0）。</li>\n<li>修改 package.json 中 egg 的依赖为 ^2.0.0。</li>\n<li>检查相关插件是否发布新版本（可选）。</li>\n<li>重新安装依赖，跑单元测试。</li>\n</ol>\n<p><strong>搞定！几乎不需要修改任何一行代码，就已经完成了升级。</strong></p>\n<p>这得益于 Egg 对 1.x 的兼容，但为了更好的统一代码风格，以及更佳的性能和错误堆栈，我们建议开发者参考 <a href=\"https://eggjs.org/zh-cn/migration.html\">升级指南</a> 进一步升级。</p>\n<h2>未来规划</h2>\n<p>如您所知，Egg 采用的是 <strong>『微内核 + 插件 + 上层框架』</strong> 模式。</p>\n<p>其中微内核经过 3 年 4 个版本，以及在阿里的大规模应用，已经打磨的非常稳定。</p>\n<p>接下来我们的<strong>重心主要在开发者体验方面的优化</strong>，包括：</p>\n<ul>\n<li>更好的开发者体验，包括 TypeScript，开发者工具，IDE 工具等方面。</li>\n<li>社区扶持\n<ul>\n<li>协助业界的前端团队，打造适合特定团队业务场景的上层框架，欢迎勾搭。</li>\n<li>分享我们在团队、协作、规范化等方面的经验。</li>\n<li>分享在 Docker，GraphQL，SSR 等方面的探索和最佳实践分享。</li>\n</ul>\n</li>\n<li>国际化，官网和<a href=\"https://github.com/eggjs/egg/issues/363\">文档翻译</a>等。</li>\n</ul>\n<p>同时，我们也欢迎社区更多的<a href=\"https://github.com/orgs/eggjs/projects\">参与</a>，一起打造更完善的生态。</p>\n<p><img src=\"//dn-cnode.qbox.me/Fg_WHGNC13j2azgEWb-ONk5whle5\" alt=\"image.png\"></p>\n<h2>我们这一年</h2>\n<p>截止至今天(2017-12-03)：</p>\n<ul>\n<li><strong>GitHub 5.6k star</strong>，555 forks，npm 月下载量 11,140 (不含阿里内网数据)。</li>\n<li>从 1.0 到 2.0，我们一共发布了 <a href=\"https://github.com/eggjs/egg/releases\">18 个版本</a>，处理了 820 个 issue，收到了 500+ (主库 272) 个 Pull Request 。</li>\n<li>开发者体验方面的优化包括：<a href=\"https://eggjs.org/zh-cn/core/development.html#%E4%BD%BF%E7%94%A8-egg-bin-%E8%B0%83%E8%AF%95\">断点调试代理</a>，<a href=\"https://eggjs.org/zh-cn/core/development.html#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95\">单元测试+覆盖率</a>，<a href=\"https://eggjs.org/zh-cn/core/deployment.html#%E9%83%A8%E7%BD%B2\">部署工具</a>，TypeScript 支持，<a href=\"https://github.com/eggjs/vscode-eggjs\">VSCode 插件</a>，文档优化等等。</li>\n</ul>\n<p><strong>社区方面：</strong></p>\n<ul>\n<li>来自 BAT，丁香园，全民直播等多家兄弟公司的反馈和插件回馈。</li>\n<li>来自 <a href=\"https://github.com/eggjs/egg/network/dependents\">GitHub Dependents</a> 的统计：992 Repositories, 231 Packages</li>\n<li><a href=\"https://npms.io/search?q=egg-\">NPM 搜索结果</a>超过 400 个。</li>\n<li>上层框架：\n<ul>\n<li><a href=\"https://github.com/alibaba/beidou\">北斗</a> - Isomorphic framework for server-rendered React apps</li>\n<li><a href=\"https://github.com/avetjs/avet\">avet</a> - A very comfortable framework for writing isomorphic applications</li>\n</ul>\n</li>\n<li>如果你有好的分享，PR 传送门：<a href=\"https://github.com/eggjs/awesome-egg\">awesome-egg</a></li>\n</ul>\n<p><strong>趣味数据：</strong></p>\n<ul>\n<li>官网访问量中，Mac 占 47% → 这比例挺高的，看来 Node 程序猿都很幸福。</li>\n<li>周末的访问量约为平时的 1/3 → 看来 Node 程序猿周末加班少。（滑稽</li>\n<li>官网访问来源：站内，直链，外链各 30% 多，来自搜索引擎的较少。</li>\n</ul>\n<p><strong>分享交流：</strong></p>\n<ul>\n<li>在 <a href=\"http://2017.jsdc.tw/\">台灣 JSDC2017 開發者年會</a> 和 <a href=\"http://2017.imweb.io/index.html#schedule\">腾讯IMWebConf</a> 分享了『<a href=\"https://github.com/atian25/blog/raw/master/assets/files/Egg%20%26%20Node.js%20%E4%BB%8E%E5%B0%8F%E5%B7%A5%E5%9D%8A%E8%B5%B0%E5%90%91%E4%BC%81%E4%B8%9A%E7%BA%A7%E5%BC%80%E5%8F%91.pdf\">Egg &amp; Node.js 从小工坊走向企业级开发</a>』</li>\n</ul>\n<p><img src=\"//dn-cnode.qbox.me/FgFUrGpNw07LKQPYzGgZp64j7CZH\" alt=\"image.png\"></p>\n<ul>\n<li>Node TSC @张秋怡 在 <a href=\"https://nina17.sched.com/event/Atii/nodejs-at-alibaba-a-joyee-cheung-alibaba-cloud\">Node Interactive North America 2017</a> 和 <a href=\"http://nodefest.jp/2017/schedule.html#joyee\">東京Node学園祭2017</a> 分享了『<a href=\"https://github.com/joyeecheung/talks/blob/master/node_fest_2017/nodejs_at_alibaba_tokyo.pdf\">Node.js at Alibaba</a>』。</li>\n</ul>\n<p><img src=\"//dn-cnode.qbox.me/Fl5IyrfAMzQ49Uz3eQ67i2FLL09H\" alt=\"image.png\"></p>\n<ul>\n<li><a href=\"/user/ngot\">@ngot</a> 在 <a href=\"https://www.bagevent.com/event/751307\">Node Party</a> 分享了『<a href=\"https://github.com/Hangzhou-Node-Party/Node-Party/blob/master/2017-08-19/Egg.js%E5%9C%A8%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E9%9B%86%E5%9B%A2%E7%9A%84%E7%9A%84%E5%AE%9E%E8%B7%B5%E8%BF%90%E7%94%A8.pdf\">Egg.js 在阿里巴巴集团的实践运用</a>』</li>\n<li>@姜天意 在 <a href=\"http://2017.imweb.io/index.html#schedule\">腾讯IMWebConf</a> 分享了 『<a href=\"https://github.com/jtyjty99999/share/blob/master/security%20risk%20in%20node%20web.pdf\">脆弱的 Node.js</a>』</li>\n</ul>\n<h2>写在最后</h2>\n<p>开源，痛并快乐着。</p>\n<p><img src=\"//dn-cnode.qbox.me/Fiamh5LNYR3e2E0HtdhrO3sVfHrs\" alt=\"image.png\"></p>\n</div>",
+    "title": "企业级 Node.js 框架 Egg 发布 2.0，性能提升 30%，拥抱 Async",
+    "last_reply_at": "2018-01-29T16:18:59.945Z",
+    "good": true,
+    "top": true,
+    "reply_count": 105,
+    "visit_count": 20388,
+    "create_at": "2017-12-03T13:58:58.901Z",
+    "author": {
+      "loginname": "atian25",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/227713?v=3&s=120"
+    }
+  }, {
+    "id": "5a794d78497a08f571384e67",
+    "author_id": "55c56e8a39273b9219336288",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>因为最近做的项目需要对一些资源做简单的权限管理。老项目用的是 <a href=\"https://www.npmjs.com/package/acl\">node_acl</a>。功能比较全，但是对于简单的 acl 也需要连数据库。于是就在想可不可以把 ACL 搞的简单一点。</p>\n<p>对于简单的 ACL，表达的是 <code>role</code> 是否被 <code>allow</code> 对一个 <code>resource</code> 做某个操作。</p>\n<p>这其实可以使用一个三维矩阵来：\n行代表 <code>role</code>\n列代表 <code>resource</code>\n第三维代表权限。</p>\n<p>于是做了这个小库：\n<strong><a href=\"https://github.com/timqian/acl-matrix\">acl-matrix</a></strong></p>\n<p>下面复制了下 readme, 欢迎讨论</p>\n<h2>Usage</h2>\n<ol>\n<li>Install</li>\n</ol>\n<pre class=\"prettyprint language-bash\"><code>npm install acl-matrix\n</code></pre><ol>\n<li>Require it</li>\n</ol>\n<pre class=\"prettyprint language-js\"><code>const AclMatrix = require(&#x27;acl-matrix&#x27;);\n\nconst roles = [&#x27;admin&#x27;, &#x27;member&#x27;, &#x27;guest&#x27;];\nconst resources = [&#x27;blog&#x27;, &#x27;comment&#x27;];\nconst allows = [&#x27;get&#x27;, &#x27;add&#x27;, &#x27;update&#x27;, &#x27;delete&#x27;];\n\n&#x2F;&#x2F; Each element in matrix stores the permissions of a role to a resource.\nconst matrix = [\n    &#x2F;&#x2F;   admin        member         guest\n    [[1, 1, 1, 1], [1, 0, 1, 1], [1, 0, 0, 0]], &#x2F;&#x2F; blog\n    [[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 0]], &#x2F;&#x2F; comment\n];\n\nconst acl = new AclMatrix(roles, resources, allows, matrix);\n\n&#x2F;&#x2F; 0\nacl.isAllowed(&#x27;member&#x27;, &#x27;blog&#x27;, &#x27;add&#x27;);\n\n&#x2F;&#x2F; 1\nacl.isAllowed(&#x27;member&#x27;, &#x27;blog&#x27;, &#x27;get&#x27;);\n</code></pre><h2>Concepts</h2>\n<ul>\n<li><strong><code>roles</code></strong> are the types of user trying to access <strong><code>resources</code></strong></li>\n<li><strong><code>allows</code></strong> describes the oprations user will need to do</li>\n<li><strong><code>matrix</code></strong> describes the <code>allows</code> relation between <code>roles</code> and <code>resources</code>;</li>\n<li>third dimension of the matrix is an array of <code>0</code> and <code>1</code>s, the length of array should equal to <code>allows</code>'s. This array describes the permissions.</li>\n</ul>\n<p>For example: in the above sample code, <code>matrix[0][2]</code> (<code>[1, 0, 0, 0]</code>) means the <code>guest</code> role is able to <code>'get'</code> the <code>'blog'</code> resource, but not others.</p>\n<h3>Parameter limits</h3>\n<ul>\n<li>Row number of <code>matrix</code> should eauql to <code>resources</code> length;</li>\n<li>Collum number of <code>matrix</code> should eauql to <code>role</code> length;</li>\n<li>Element number of <code>matrix</code> should eauql to <code>allows</code> length;</li>\n</ul>\n<h2>Pros and Cons</h2>\n<h3>Pros</h3>\n<p><a href=\"https://www.npmjs.com/package/acl\">node_acl</a> is good, but it acquires database to store the acls. And it is relatively hard to mantain and update acl using <code>node_acl</code>.</p>\n<p>Benefits of using <code>acl-matrix</code>:</p>\n<ol>\n<li>Three dimensional matrix is the simplest way to store acl;</li>\n<li>Simple to config and simple for future change;</li>\n<li>No dependency, acl matrix can be easily shared between frontend and backend;</li>\n<li>Performance: no database needed, checking permissions is justing reading elemet in array</li>\n</ol>\n<h3>Cons</h3>\n<ol>\n<li>By using <a href=\"https://www.npmjs.com/package/acl\">node_acl</a> you are able to save relations between <code>users</code> and <code>roles</code>. You will need to store the role of the user youself using <code>acl-matrix</code></li>\n<li>By default, permissions of each roles are fixed, which is suitable for most projects. But if you want to allow user define the acl, you will need to store multiple acl matrices</li>\n</ol>\n<h2>TODOs</h2>\n<p>Add more method for the class maybe?</p>\n</div>",
+    "title": "一种尝试: 用 matrix 来定义项目的 ACL",
+    "last_reply_at": "2018-02-06T06:38:48.046Z",
+    "good": false,
+    "top": false,
+    "reply_count": 0,
+    "visit_count": 1,
+    "create_at": "2018-02-06T06:38:48.046Z",
+    "author": {
+      "loginname": "timqian",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/5512552?v=4&s=120"
+    }
+  }, {
+    "id": "5a7944d3af2f49f26a5bf149",
+    "author_id": "5a3b17649807389a1809f5a5",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>我通过formidable中间件，获取文件上传进度，怎样返回给前台呢？</p>\n<pre class=\"prettyprint\"><code>form.on(&#x27;progress&#x27;, function(bytesReceived, bytesExpected) {\n            console.log(&#96;bytesReceived:${Math.round(bytesReceived&#x2F;bytesExpected*100)}&#96;)\n        });\n</code></pre></div>",
+    "title": "上传文件时，怎样返回上传进度给前台？",
+    "last_reply_at": "2018-02-06T06:01:55.676Z",
+    "good": false,
+    "top": false,
+    "reply_count": 0,
+    "visit_count": 42,
+    "create_at": "2018-02-06T06:01:55.676Z",
+    "author": {
+      "loginname": "Sxy97",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/24429847?v=4&s=120"
+    }
+  }, {
+    "id": "5a793689afa0a121784a934b",
+    "author_id": "57e330bcc4ae8ff239776e33",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><pre class=\"prettyprint\"><code>export default class DimensionApi extends BaseService {\n    query(params) {\n        return super.query(url, params)\n    }\n\n    async query1(params) {\n\n        var a = await Api.query(url, params)\n        console.log(&#x27;query&#x27;, a)  &#x2F;&#x2F; 这里是一个axios对象\n        return a\n\n    }\n}\n&#x2F;&#x2F; 调用\na = new DimensionApi(&#x27;url&#x27;).query1()  &#x2F;&#x2F; 这个a 是个promise\n</code></pre><p>为什么a 还是一个处于pending状态的promise呀? 在类里面的console打出来就已经不是一个promise了呀，我是什么地方用错了？</p>\n</div>",
+    "title": "async/await 相关问题请指教",
+    "last_reply_at": "2018-02-06T05:55:11.998Z",
+    "good": false,
+    "top": false,
+    "reply_count": 6,
+    "visit_count": 93,
+    "create_at": "2018-02-06T05:00:57.807Z",
+    "author": {
+      "loginname": "rianran1993",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/22359049?v=4&s=120"
+    }
+  }, {
+    "id": "551802d3687c387d2f5b2906",
+    "author_id": "530ed7b25adfcd9c0f0713b6",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><blockquote>\n<p>原文链接：<a href=\"http://www.jianshu.com/p/db65cf48c111\">简书</a></p>\n</blockquote>\n<h2>前言</h2>\n<p>有人说，每个人都是平等的；\n也有人说，人生来就是不平等的；\n在人类社会中，并没有绝对的公平，\n一件事，并不是所有人都能去做；\n一样物，并不是所有人都能够拥有。\n每个人都有自己的角色，每种角色都有对某种资源的一定权利，或许是拥有，或许只能是远观而不可亵玩。\n把这种人类社会中如此抽象的事实，提取出来，然后写成程序，还原本质的工作，就是我们程序员该做的事了。\n有了一个这么有范儿的开头，下面便来谈谈基于RESTful，如何实现不同的人不同的角色对于不同的资源不同的操作的权限控制。</p>\n<h2>RESTful简述</h2>\n<p>本文是基于RESTful描述的，需要你对这个有初步的了解。\nRESTful是什么？\n<strong>Representational State Transfer</strong>，简称<strong>REST</strong>，是Roy Fielding博士在2000年他的博士论文中提出来的一种软件架构风格。\nREST比较重要的点是<strong>资源</strong>和<strong>状态转换</strong>，\n所谓&quot;<strong>资源</strong>&quot;，就是网络上的一个实体，或者说是网络上的一个具体信息。它可以是一段文本、一张图片、一首歌曲、一种服务，总之就是一个具体的实在。\n而 “<strong>状态转换</strong>”，则是把对应的HTTP协议里面，四个表示操作方式的动词分别对应四种基本操作：</p>\n<ol>\n<li>GET，用来浏览(browse)资源</li>\n<li>POST，用来新建(create)资源</li>\n<li>PUT，用来更新(update)资源</li>\n<li>DELETE，用来删除(delete)资源</li>\n</ol>\n<p><img src=\"http://xia-dev.b0.upaiyun.com/7860df36-189a-4f33-a884-156b4e0cb32d.png\" alt=\"RESTful CURD\"></p>\n<h2>资源的分类及操作</h2>\n<p>清楚了资源的概念，然后再来对资源进行一下分类，我把资源分为下面三类：</p>\n<ol>\n<li>私人资源 (Personal Source)</li>\n<li>角色资源 (Roles Source)</li>\n<li>公共资源 (Public Source)</li>\n</ol>\n<p><img src=\"http://xia-dev.b0.upaiyun.com/966064e4-b954-4aab-8cec-f0a9513835b2.png\" alt=\"Sources\"></p>\n<p><strong>“私人资源”</strong>：是属于某一个用户所有的资源，只有用户本人才能操作，其他用户不能操作。例如用户的个人信息、订单、收货地址等等。\n<strong>“角色资源”</strong>：与私人资源不同，角色资源范畴更大，一个角色可以对应多个人，也就是一群人。如果给某角色分配了权限，那么只有身为该角色的用户才能拥有这些权限。例如系统资源只能够管理员操作，一般用户不能操作。\n<strong>“公共资源”</strong>：所有人无论角色都能够访问并操作的资源。</p>\n<p>而对资源的操作，无非就是分为四种：</p>\n<ol>\n<li>浏览 (browse)</li>\n<li>新增 (create)</li>\n<li>更新 (update)</li>\n<li>删除 (delete)</li>\n</ol>\n<h2>角色、用户、权限之间的关系</h2>\n<p>角色和用户的概念，自不用多说，大家都懂，但是权限的概念需要提一提。<br>\n<strong>“权限”</strong>，就是资源与操作的一套组合，例如&quot;增加用户&quot;是一种权限，&quot;删除用户&quot;是一种权限，所以对于一种资源所对应的权限有且只有四种。</p>\n<p><img src=\"http://xia-dev.b0.upaiyun.com/3f78aa79-82ae-40d1-9691-976e007dcfd3.png\" alt=\"Permissions\"></p>\n<p><strong>角色</strong>与<strong>用户</strong>的关系：一个角色对应一群用户，一个用户也可以扮演多个角色，所以它们是多对多的关系。<br>\n<strong>角色</strong>与<strong>权限</strong>的关系：一个角色拥有一堆权限，一个权限却只能属于一个角色，所以它们是一(角色)对多(权限)的关系<br>\n<strong>权限</strong>与<strong>用户</strong>的关系：由于一个用户可以扮演多个角色，一个角色拥有多个权限，所以用户与权限是间接的多对多关系。</p>\n<p><img src=\"http://xia-dev.b0.upaiyun.com/0c724f72-aa01-44b8-9540-f463e50924d0.png\" alt=\"Relations\"></p>\n<p>需要注意两种特别情况：</p>\n<ol>\n<li>私人资源与用户的关系，一种私人资源对应的四种权限只能属于一个用户，所以这种情况下，用户和权限是一(用户)对多(权限)的关系。</li>\n<li>超级管理员的角色，这个角色是神一般的存在，能无视一切阻碍，对所有资源拥有绝对权限，甭管你是私人资源还是角色资源。</li>\n</ol>\n<h2>数据库表的设计</h2>\n<p>角色、用户、权限的模型应该怎么样设计，才能满足它们之间的关系？</p>\n<p><img src=\"http://xia-dev.b0.upaiyun.com/b3c4a7ba-6ec8-4530-b576-ecbae2d9b239.png\" alt=\"Models\"></p>\n<p>对上图的一些关键字段进行说明：</p>\n<h6>Source</h6>\n<ul>\n<li>name: 资源的名称，也就是其他模型的名称，例如：user、role等等。</li>\n<li>identity: 资源的唯一标识，可以像uuid，shortid这些字符串，也可以是model的名称。</li>\n<li>permissions : 一种资源对应有四种权限，分别对这种资源的browse、create、update、delete</li>\n</ul>\n<h6>Permission</h6>\n<ul>\n<li>source : 该权限对应的资源，也就是Source的某一条记录的唯一标识</li>\n<li>action ：对应资源的操作，只能是browse、create、update、delete四个之一</li>\n<li>relation：用来标记该权限是属于私人的，还是角色的，用于OwnerPolicy检测</li>\n<li>roles: 拥有该权限的角色</li>\n</ul>\n<h6>Role</h6>\n<ul>\n<li>users : 角色所对应的用户群，一个角色可以对应多个用户</li>\n<li>permissions: 权限列表，一个角色拥有多项权利</li>\n</ul>\n<h6>User</h6>\n<ul>\n<li>createBy : 该记录的拥有者，在user标里，一般等于该记录的唯一标识，这一属性用于OwnerPolicy的检测，其他私有资源的模型设计，也需要加上这一字段来标识资源的拥有者。</li>\n<li>roles : 用户所拥有的角色</li>\n</ul>\n<h2>策略/过滤器</h2>\n<p>在sails下称为策略(Policy)，在java SSH下称为过滤器(Filter)，无论名称如何，他们工作原理是大同小异的，主要是在一条HTTP请求访问一个Controller下的action之前进行检测。所以在这一层，我们可以自定义一些策略/过滤器来实现权限控制。<br>\n为行文方便，下面姑且允许我使用策略这一词。</p>\n<p>** 策略 (Policy) **</p>\n<blockquote>\n<p>下面排版顺序对应Policy的运行顺序</p>\n</blockquote>\n<ol>\n<li><strong>SessionAuthPolicy</strong>：<br>\n检测用户是否已经登录，用户登录是进行下面检测的前提。</li>\n<li><strong>SourcePolicy</strong>：<br>\n检测访问的资源是否存在，主要检测Source表的记录</li>\n<li><strong>PermissionPolicy</strong>：<br>\n检测该用户所属的角色，是否有对所访问资源进行对应操作的权限。</li>\n<li><strong>OwnerPolicy</strong>：<br>\n如果所访问的资源属于私人资源，则检测当前用户是否该资源的拥有者。</li>\n</ol>\n<p>如果通过所有policy的检测，则把请求转发到目标action。</p>\n<p><img src=\"http://xia-dev.b0.upaiyun.com/73b94749-99ba-4e35-a9a3-42604ecb7af9.png\" alt=\"Policies\"></p>\n<h2>Sails下的权限控制实现</h2>\n<p>在Sails下，有一个很方便的套件<a href=\"https://github.com/tjwebb/sails-permissions\">sails-permissions</a>，集成了一套权限管理的方案，本文也是基于该套件的源码所引出来的权限管理解决方案。</p>\n<h2>结语</h2>\n<p>对程序员最大的挑战，并不是能否掌握了哪些编程语言，哪些软件框架，而是对业务和需求的理解，然后在此基础上，把要点抽象出来，写成计算机能理解的语言。<br>\n最后，希望这篇文章，能够帮助你对权限管理这一课题增加多一点点理解。</p>\n<h2>写作参考</h2>\n<ul>\n<li><a href=\"http://www.ruanyifeng.com/blog/2011/09/restful.html\">理解RESTful架构</a></li>\n<li><a href=\"http://zh.wikipedia.org/wiki/REST\">REST wiki</a></li>\n<li><a href=\"https://github.com/tjwebb/sails-permissions\">sails-permissions 源码</a></li>\n</ul>\n</div>",
+    "title": "基于RESTful API 怎么设计用户权限控制？",
+    "last_reply_at": "2018-02-06T05:40:22.826Z",
+    "good": true,
+    "top": false,
+    "reply_count": 64,
+    "visit_count": 38973,
+    "create_at": "2015-03-29T13:49:07.758Z",
+    "author": {
+      "loginname": "JerryC8080",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6801672?v=4&s=120"
+    }
+  }, {
+    "id": "5a7938faafa0a121784a934c",
+    "author_id": "580ffe64eae2a24f34e67ee1",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>1.node 可不可以做图片批量剪裁\n就是浏览器上传多张图片,批量处理成规定宽高的尺寸的图片,不用在一张一张的处理</p>\n</div>",
+    "title": "node做图片批量剪裁",
+    "last_reply_at": "2018-02-06T05:38:44.756Z",
+    "good": false,
+    "top": false,
+    "reply_count": 1,
+    "visit_count": 67,
+    "create_at": "2018-02-06T05:11:22.018Z",
+    "author": {
+      "loginname": "fairyly",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/17672815?v=4&s=120"
+    }
+  }, {
+    "id": "5a77fb365321b5396004eba0",
+    "author_id": "5a77fac6afa0a121784a9300",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>egg或者koa有数据迁移管理的插件吗</p>\n</div>",
+    "title": "egg或者koa有数据迁移管理的插件吗",
+    "last_reply_at": "2018-02-06T05:37:40.756Z",
+    "good": false,
+    "top": false,
+    "reply_count": 1,
+    "visit_count": 163,
+    "create_at": "2018-02-05T06:35:34.706Z",
+    "author": {
+      "loginname": "jiyarong",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8100962?v=4&s=120"
+    }
+  }, {
+    "id": "5a69e59e9288dc81532881ee",
+    "author_id": "589ac689f46268be08aea5d6",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>之前是做前端的，主要写React。年前跳槽到公司做Node后端。刚入职两天手头还没有什么任务，请问刚开始主要学哪些东西，才能完成前端到后端的一个过渡和思维的转变。</p>\n</div>",
+    "title": "前端转Node后端，刚入职，要注意哪些方面",
+    "last_reply_at": "2018-02-06T05:36:31.160Z",
+    "good": false,
+    "top": false,
+    "reply_count": 10,
+    "visit_count": 1223,
+    "create_at": "2018-01-25T14:11:42.530Z",
+    "author": {
+      "loginname": "chaohangz",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/15074003?v=4&s=120"
+    }
+  }, {
+    "id": "5a792925cb27e8121481a39d",
+    "author_id": "5a792842cb27e8121481a39c",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p><img src=\"//dn-cnode.qbox.me/FvaJRD41K0U40ojlITLEqQ3mqYEq\" alt=\"LOGO200.png\"></p>\n<p>github link: <a href=\"https://github.com/ByronHsu/life-commit\">https://github.com/ByronHsu/life-commit</a></p>\n<p>你曾否想过，如果你的人生是 git 上唯一的一条 branch，你会如何用一个个 commits 记载在生命中发生的点点滴滴呢？\nlife-commit 是一个 cli 工具，能让你用 terminal 建造属于你自己的 life branch，更支援一键将本端所有 commits 视觉化为静态网页，如果你喜欢我的专案，欢迎给个 star！</p>\n<p>这是我用node.js写的第一个 npm package，所以很多地方都还不甚完善，如果有任何建议或指教，欢迎直接发 PR 和 issues！\n谢谢大家！</p>\n<p>Credits:\nInspiration: <a href=\"https://github.com/carloscuesta/gitmoji-cli\">https://github.com/carloscuesta/gitmoji-cli</a>\nUI: <a href=\"https://codepen.io/itbruno/pen/KwarLp\">https://codepen.io/itbruno/pen/KwarLp</a>\nLOGO: <a href=\"https://www.facebook.com/gary8621\">https://www.facebook.com/gary8621</a></p>\n</div>",
+    "title": "[ Life-Commit ] - 从今天起，用git记录你的人生吧！",
+    "last_reply_at": "2018-02-06T04:56:51.122Z",
+    "good": false,
+    "top": false,
+    "reply_count": 4,
+    "visit_count": 153,
+    "create_at": "2018-02-06T04:03:49.144Z",
+    "author": {
+      "loginname": "ByronHsu",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/24364830?v=4&s=120"
+    }
+  }, {
+    "id": "5a77b8385e20f00d1427ff06",
+    "author_id": "58e261ed27d4e130201065f7",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><h2>爬虫问题</h2>\n<ol>\n<li>墙外的图片能不能直接根据 url 地址转为 base64的图片存在数据库中?  不是整个列表的图片,是单个文章的图片,所以压力不会太大,而且只是实验性质</li>\n<li>下拉刷新的网站,抓取第二页的时候,如何操作呢?</li>\n</ol>\n</div>",
+    "title": "两个爬虫问题请教- 图片直接转存问题, 下拉刷新下一页的获取问题",
+    "last_reply_at": "2018-02-06T04:05:03.178Z",
+    "good": false,
+    "top": false,
+    "reply_count": 3,
+    "visit_count": 186,
+    "create_at": "2018-02-05T01:49:44.332Z",
+    "author": {
+      "loginname": "phpsmarter",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/10001670?v=4&s=120"
+    }
+  }, {
+    "id": "5a76fffbafa0a121784a92cf",
+    "author_id": "5a76fdd6cb27e8121481a336",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>我是通过express ****来快速新建一个项目，然后新疆的项目文件里面进行npm install\n根目录：\n<img src=\"//dn-cnode.qbox.me/FhJLb6Q7_4u4GVifCB3PqMQ6Ez6-\" alt=\"捕获3.PNG\">\n得到的app.js:\n<img src=\"//dn-cnode.qbox.me/FrU9wJYcio2REzyWUjmd56FXiDe9\" alt=\"捕获.PNG\">\n然而别人的案例项目的app是\n<img src=\"//dn-cnode.qbox.me/Fnlhxy0TvqpHdaClKh3XGAGUP6i2\" alt=\"捕获2.PNG\">\n都是可以运行，那么我新建的项目中端口号设置以及路由设置在哪的呢？</p>\n</div>",
+    "title": "小白问题：别人快速新建项目的app.js和我的很大差别",
+    "last_reply_at": "2018-02-06T03:59:05.272Z",
+    "good": false,
+    "top": false,
+    "reply_count": 3,
+    "visit_count": 289,
+    "create_at": "2018-02-04T12:43:39.864Z",
+    "author": {
+      "loginname": "garraly",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/36126068?v=4&s=120"
+    }
+  }, {
+    "id": "591168c39e32cc84569a6cc5",
+    "author_id": "53b25565399ed9e07d1e8793",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>比如表blog里有个user引用</p>\n<pre class=\"prettyprint language-js\"><code>new Schema({\n\ttitle: {\n\t\ttype: String,\n\t\tunique: true\n\t},\n\tcontent: String,\n\tin_time: {\n\t\ttype: Date,\n\t\tdefault: Date.now\n\t},\n\tuser: {\n\t\ttype: Schema.Types.ObjectId,\n\t\tref: &#x27;user&#x27;\n\t}\n});\n</code></pre><p>user里有个字段是isDelete</p>\n<pre class=\"prettyprint language-js\"><code>new Schema({\n\tisDelete: {type: Boolean, default: false}\n});\n</code></pre><p>现在我想在查询的时候对user进行筛选，user状态为删除的（isDelete: true) 博客不要查询出来</p>\n<pre class=\"prettyprint language-js\"><code>Blog.find({}).populate({\n\tpath: &#x27;user&#x27;,\n\tmatch: {isDelete: false}\n}).exec()\n</code></pre><p>这样查询出来的数据还是全部的博客，但用户被删除的博客里的user字段没数据了</p>\n<p>我想要的是用户被删除了的博客直接就不要被查询出来了，这样的需求mongoose可以实现吗？</p>\n</div>",
+    "title": "mongoose查询可以以populate里的条件对要查询的表进行筛选吗？",
+    "last_reply_at": "2018-02-06T03:55:50.690Z",
+    "good": false,
+    "top": false,
+    "reply_count": 18,
+    "visit_count": 1935,
+    "create_at": "2017-05-09T06:59:15.726Z",
+    "author": {
+      "loginname": "liygheart",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6915570?v=4&s=120"
+    }
+  }, {
+    "id": "59a39430bc6d9537081288b7",
+    "author_id": "583ea7c227d001d606ac1ae6",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>平时也就上twitter, medium, google, quora等网站看看别人的技术帖子之类的？现在还有什么方法去墙外转一转？求告知，谢谢！</p>\n</div>",
+    "title": "现在还有什么方法能科学上网？",
+    "last_reply_at": "2018-02-06T03:53:44.539Z",
+    "good": false,
+    "top": false,
+    "reply_count": 68,
+    "visit_count": 24445,
+    "create_at": "2017-08-28T03:55:28.461Z",
+    "author": {
+      "loginname": "labike",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/15871933?v=4&s=120"
+    }
+  }, {
+    "id": "5a66b313ce45d44045146277",
+    "author_id": "5a49efecf320ae9f0dd5821a",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>这是一个前后端分离的个人学习项目。体验网址:<a href=\"http://www.scaugreen.cn\">http://www.scaugreen.cn</a>。\n欢迎大虾指点，与新手相互交流学习。\n登陆界面，可任意注册用户，管理员账号密码皆为为akoa（大家不要改管理员密码）。\n<img src=\"//dn-cnode.qbox.me/FlWnspr9IHZzTVrWo18BY6rsLn96\" alt=\"1.PNG\">\n管理员的界面：\n<img src=\"//dn-cnode.qbox.me/FuyKXfOvMGD3IFZdJ29YITa19CJg\" alt=\"2.PNG\">\nvue作前端（就叫avua）<a href=\"https://github.com/alwxkxk/avue\">https://github.com/alwxkxk/avue</a></p>\n<p>koa2作后端（就叫akoa）<a href=\"https://github.com/alwxkxk/akoa\">https://github.com/alwxkxk/akoa</a></p>\n<h2>项目说明</h2>\n<p>avue使用了element的框架，后端环境是mysql+redis+nginx+node8。\n跟其它项目最大的不同点或许在于：具体设计思路使用markdown记录下来，并转化为html方便阅读。\n都在avue、akoa项目下的doc目录下：\n<img src=\"//dn-cnode.qbox.me/Fp37Byg8vnv0XV8qE63SKgUSnFrk\" alt=\"4.PNG\">\n欢迎大虾指点，新手相互交流学习。</p>\n<h3>暂时实现的功能点</h3>\n<ul>\n<li>基本完成用户基本功能注册、登陆、退出、修改密码、头像、昵称等，还有管理员的功能。（管理员的界面不一样）</li>\n<li>有初始化脚本，每次部署时运行<code>npm run init</code>即可检测redis，mysql是否可使用，并创建数据表，添加管理员账号。</li>\n<li>redis存有账号列表，新注册用户时可快速检测出该用户是否已经被注册。</li>\n<li>引入socketio，实时显示服务器状态。</li>\n<li>完成文件系统。供用户上传下载文件.\n更多详细功能点可以查看doc目录下的设计文档。</li>\n</ul>\n<h2>下一步计划</h2>\n<p>学习研究各方面性能的测试与优化。\n完成消息系统。\n然后就没了，为什么不继续搞？\n因为继续搞还不如先学typescript，再重新搞一个新项目，重构起来更爽。\n估计做没完就要过年了，过完年后去深圳找工作0。0\n如果哪家物联网公司招node的，使劲砸我…</p>\n</div>",
+    "title": "分享我个人学习项目：系统管理平台（基于vue，koa2前后端分离）。",
+    "last_reply_at": "2018-02-06T03:51:42.314Z",
+    "good": false,
+    "top": false,
+    "reply_count": 16,
+    "visit_count": 1462,
+    "create_at": "2018-01-23T03:59:15.492Z",
+    "author": {
+      "loginname": "alwxkxk",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/16029024?v=4&s=120"
+    }
+  }, {
+    "id": "59264af09e32cc84569a731a",
+    "author_id": "58e5d443c669764920c00a46",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><h2>求大神分析一波~~</h2>\n<p><img src=\"https://zos.alipayobjects.com/rmsportal/VTcUYAaoKqXyHJbLAPyF.svg\" alt=\"egg\"></p>\n</div>",
+    "title": "Egg框架能不能火起来",
+    "last_reply_at": "2018-02-06T03:14:46.946Z",
+    "good": false,
+    "top": false,
+    "reply_count": 52,
+    "visit_count": 5248,
+    "create_at": "2017-05-25T03:09:36.965Z",
+    "author": {
+      "loginname": "yilikun",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/23469392?v=4&s=120"
+    }
+  }, {
+    "id": "55af2bc4911fb957520eacef",
+    "author_id": "547c35030ae47dec03aa2939",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><h3>Why Angular2</h3>\n<p>Angular1.x显然非常成功，那么，为什么要剧烈地转向Angular2？转自汇智网（<a href=\"http://www.hubwiz.com\">www.hubwiz.com</a>）的这篇文章非常的有用!</p>\n<hr>\n<h4>性能的限制</h4>\n<p><a href=\"http://xc.hubwiz.com/course/54f3ba65e564e50cfccbad4b\">AngularJS</a>当初是提供给设计人员用来快速构建HTML表单的一个内部工具。随着时间的推移，各种特性 被加入进去以适应不同场景下的应用开发。然而由于最初的架构限制（比如绑定和模板机制），性能的 提升已经非常困难了。</p>\n<h4>快速变化的WEB</h4>\n<p>在语言方面，ECMAScript6的标准已经完成，这意味着浏览器将很快支持例如模块、类、lambda表达式、 generator等新的特性，而这些特性将显著地改变JavaScript的开发体验。</p>\n<p>在开发模式方面，Web组件也将很快实现。然而现有的框架，包括Angular1.x对WEB组件的支持都不够好。</p>\n<h4>移动化</h4>\n<p>想想5年前…现在的计算模式已经发生了显著地变化，到处都是手机和平板。Angular1.x没有针对移动 应用特别优化，并且缺少一些关键的特性，比如：缓存预编译的视图、触控支持等。</p>\n<h4>简单易用</h4>\n<p>说实话，Angular1.x太复杂了，学习曲线太陡峭了，这让人望而生畏。Angular团队希望在Angular2中将复杂性 封装地更好一些，让暴露出来的概念和开发接口更简单。</p>\n<p>Rob Eisenberg / Angular 2.0 Team</p>\n<h3>ES6工具链</h3>\n<p>要让<a href=\"http://xc.hubwiz.com/course/567a414e660c92d638a68bf3\">Angular2</a>应用跑起来不是件轻松的事，因为它用了太多还不被当前主流浏览器支持 的技术。所以，我们需要一个工具链：</p>\n<p><img src=\"http://www.hubwiz.com/course/5599d367a164dd0d75929c76/img/toolchain.jpg\" alt=\"001\"></p>\n<p>Angular2是面向未来的科技，要求浏览器支持ES6+，我们现在要尝试的话，需要加一些 垫片来抹平当前浏览器与ES6的差异：</p>\n<p><strong>systemjs</strong> - 通用模块加载器，支持AMD、CommonJS、ES6等各种格式的JS模块加载\n<strong>es6-module-loader</strong> - ES6模块加载器，systemjs会自动加载这个模块\n<strong>traceur</strong> - ES6转码器，将ES6代码转换为当前浏览器支持的ES5代码。systemjs会自动加载 这个模块。</p>\n<h3>初识Angular2</h3>\n<p>写一个Angular2的Hello World应用相当简单，分三步走：</p>\n<h4>1. 引入Angular2预定义类型</h4>\n<pre class=\"prettyprint\"><code>import {Component,View,bootstrap} from &quot;angular2&#x2F;angular2&quot;;\n</code></pre><p>import是ES6的关键字，用来从模块中引入类型定义。在这里，我们从angular2模块库中引入了三个类型： Component类、View类和bootstrap函数。</p>\n<h4>2. 实现一个Angular2组件</h4>\n<p>实现一个<a href=\"http://xc.hubwiz.com/course/567a414e660c92d638a68bf3\">Angular2组件</a>也很简单，定义一个类，然后给这个类添加注解：</p>\n<pre class=\"prettyprint\"><code>[@Component](&#x2F;user&#x2F;Component)({selector:&quot;ez-app&quot;})\n[@View](&#x2F;user&#x2F;View)({template:&quot;&lt;h1&gt;Hello,Angular2&lt;&#x2F;h1&gt;&quot;})\nclass EzApp{}\n</code></pre><p>class也是ES6的关键字，用来定义一个类。<a href=\"/user/Component\">@Component</a>和<a href=\"/user/View\">@View</a>都是给类EzApp附加的元信息， 被称为注解/Annotation。</p>\n<p><a href=\"/user/Component\">@Component</a>最重要的作用是通过selector属性（值为CSS选择符），指定这个组件渲染到哪个DOM对象上。 <a href=\"/user/View\">@View</a>最重要的作用是通过template属性，指定渲染的模板。</p>\n<h4>3. 渲染组件到DOM</h4>\n<p>将组件渲染到DOM上，需要使用自举/bootstrap函数：</p>\n<pre class=\"prettyprint\"><code>bootstrap(EzApp);\n</code></pre><p>这个函数的作用就是通知Angular2框架将EzApp组件渲染到DOM树上。</p>\n<p>简单吗？我知道你一定还有疑问，别着急，我们慢慢把缺失的知识点补上！</p>\n<h3>注解/Annotation</h3>\n<p>你一定好奇<a href=\"/user/Component\">@Component</a>和<a href=\"/user/View\">@View</a>到底是怎么回事。看起来像其他语言（比如python） 的装饰器，是这样吗？</p>\n<p>ES6规范里没有装饰器。这其实利用了traceur的一个实验特性：注解。给一个类 加注解，等同于设置这个类的annotations属性：</p>\n<pre class=\"prettyprint\"><code>&#x2F;&#x2F;注解写法\n[@Component](&#x2F;user&#x2F;Component)({selector:&quot;ez-app&quot;})\nclass EzApp{...}\n</code></pre><p>等同于:</p>\n<pre class=\"prettyprint\"><code>class EzApp{...}\nEzApp.annotations = [new Component({selector:&quot;ez-app&quot;})];\n</code></pre><p>很显然，注解可以看做编译器（traceur）层面的语法糖，但和python的装饰器不同， 注解在编译时仅仅被放在annotation里，编译器并不进行解释展开 - 这个解释的工作是 Angular2完成的：</p>\n<p><img src=\"http://www.hubwiz.com/course/5599d367a164dd0d75929c76/img/annotation.jpg\" alt=\"002\"></p>\n<p>据称，注解的功能就是Angular2团队向traceur团队提出的，这不是traceur的默认选项， 因此你看到，我们配置systemjs在使用traceur模块时打开注解：</p>\n<pre class=\"prettyprint\"><code>System.config({\n  map:{traceur:&quot;lib&#x2F;traceur&quot;},\n  traceurOptions: {annotations: true}\n});\n</code></pre><h3>小结</h3>\n<p>如果你了解一点Angular1.x的bootstrap，可能隐约会感受到Angular2中bootstrap的一些 变化 - 我指的并非代码形式上的变化。</p>\n<p>以组件为核心</p>\n<p>在Angular1.x中，bootstrap是围绕DOM元素展开的，无论你使用ng-app还是手动执行bootstrap()函数，自举过程是建立在DOM之上的。</p>\n<p>而在<a href=\"http://xc.hubwiz.com/course/567a414e660c92d638a68bf3\">Angular2</a>中，bootstrap是围绕组件开始的，你定义一个组件，然后启动它。如果没有一个组件， 你甚至都没有办法使用Angular2！</p>\n<p>支持多种渲染引擎</p>\n<p>以组件而非DOM为核心，意味着Angular2在内核隔离了对DOM的依赖 - DOM仅仅作为一种可选的渲染引擎存在：</p>\n<p><img src=\"http://www.hubwiz.com/course/5599d367a164dd0d75929c76/img/render-arch.jpg\" alt=\"003\"></p>\n<p>上面的图中，DOM Render已经实现，Server Render正在测试，iOS Render和Android Render 是可预料的特性，虽然我们看不到时间表。</p>\n<p>这有点像React了。</p>\n<p>参考资料：<a href=\"http://www.hubwiz.com/course/5599d367a164dd0d75929c76/\">http://www.hubwiz.com/course/5599d367a164dd0d75929c76/</a>。\n转发请赋原文链接：<a href=\"https://cnodejs.org/topic/55af2bc4911fb957520eacef\">https://cnodejs.org/topic/55af2bc4911fb957520eacef</a></p>\n</div>",
+    "title": "AngularJS2.0教程（一）快速上手",
+    "last_reply_at": "2018-02-06T03:00:36.475Z",
+    "good": true,
+    "top": false,
+    "reply_count": 69,
+    "visit_count": 155833,
+    "create_at": "2015-07-22T05:36:04.850Z",
+    "author": {
+      "loginname": "2596887568",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/9349200?v=4&s=120"
+    }
+  }, {
+    "id": "5a77c6b15321b5396004eb88",
+    "author_id": "5680a0dc435249f221f53ae1",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>如题，<a href=\"http://alinode.aliyun.com/\">http://alinode.aliyun.com/</a> ，这个怎么样，有用过的大佬么</p>\n</div>",
+    "title": "有人用过阿里的alinode来管理node应用么",
+    "last_reply_at": "2018-02-06T02:35:58.570Z",
+    "good": false,
+    "top": false,
+    "reply_count": 9,
+    "visit_count": 411,
+    "create_at": "2018-02-05T02:51:29.603Z",
+    "author": {
+      "loginname": "windinging",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/7800381?v=4&s=120"
+    }
+  }, {
+    "id": "5a77ec3f5321b5396004eb99",
+    "author_id": "597220fe8f0313ff0d08d6bb",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>在网上搜索了多好，但都都用node-xlsx或者其它模块新建一个文件，不能做到在原来文件中追加内容，有做过的请指点。</p>\n</div>",
+    "title": "node怎样向文件*.xlsx中追加内容",
+    "last_reply_at": "2018-02-06T01:58:33.899Z",
+    "good": false,
+    "top": false,
+    "reply_count": 3,
+    "visit_count": 214,
+    "create_at": "2018-02-05T05:31:43.076Z",
+    "author": {
+      "loginname": "lovegnep",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/29669264?v=4&s=120"
+    }
+  }, {
+    "id": "5a5fe71f9d371d4a059eebbd",
+    "author_id": "56a574f5f03253594b7fb6b8",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p><a href=\"https://github.com/cnpm/cnpmjs.org/issues/1287\">https://github.com/cnpm/cnpmjs.org/issues/1287</a>\nnodejs文档镜像已经很长时间404了，页面也不知道可以通知谁修复下</p>\n</div>",
+    "title": "现在淘宝npm镜像有人专门维护吗",
+    "last_reply_at": "2018-02-06T01:40:33.431Z",
+    "good": false,
+    "top": false,
+    "reply_count": 5,
+    "visit_count": 567,
+    "create_at": "2018-01-18T00:15:27.633Z",
+    "author": {
+      "loginname": "kimown",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/7932380?v=4&s=120"
+    }
+  }, {
+    "id": "5a78d64bcb27e8121481a385",
+    "author_id": "5979591c68aa87c774e5ec79",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p><img src=\"//dn-cnode.qbox.me/FlLVOqqqx0m8mmmeRdxPtUOmlB6J\" alt>\n改成了async，能够实现需求，但是不知道这样做有没有什么其他问题？</p>\n</div>",
+    "title": "eggjs在route.js里动态加载从数据库里拿的route数据，这样写有问题吗？",
+    "last_reply_at": "2018-02-06T01:38:28.102Z",
+    "good": false,
+    "top": false,
+    "reply_count": 1,
+    "visit_count": 96,
+    "create_at": "2018-02-05T22:10:19.943Z",
+    "author": {
+      "loginname": "kalebwww",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/18743244?v=4&s=120"
+    }
+  }, {
+    "id": "59a3edecd97b7e2308242808",
+    "author_id": "59a2dddfd97b7e2308242799",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>v0.9是Hitchhiker在2017农历年的最后一个版本，而起点正是刚过完2016农历年，农历2018即将到来，一年轮回，今天写点东西稍微回顾下hitchhiker的2017。</p>\n<p>先还是说v0.9，这次版本发布主要带来一个新的辅助测试功能：免脚本的断言测试，这是一个携程的朋友提出来的需求。</p>\n<p>之前Hitchhiker支持在test脚本里写 tests[‘assert’] = value 这样来断言，但很多QA其实并不会编程，或者会其他语言但对js不熟，这样断言写起来就不太方便，所以这次应朋友的需求加了这个功能：</p>\n<p><img src=\"https://raw.githubusercontent.com/brookshi/images/master/Hitchhiker/assert.gif\" alt></p>\n<p>上面动图已经展示了功能和用法，具体就不多说了。</p>\n<p>回头看下Hitchhiker的2017，一年过来，对这个项目来说结果还不错，大小版本发了14个，github上有了1k+的star，我也因此认识了一些朋友，对技术上有也不少提升，总体看对我来说是成功了。</p>\n<p><a href=\"https://github.com/brookshi/Hitchhiker\">https://github.com/brookshi/Hitchhiker</a></p>\n<p><img src=\"https://raw.githubusercontent.com/brookshi/images/master/Hitchhiker/contributor.png\" alt></p>\n<p><img src=\"https://raw.githubusercontent.com/brookshi/images/master/Hitchhiker/2017.png\" alt></p>\n<p>起初，大概是2016年年中，我开始负责公司一个API项目，因为是金融公司，对数据准确性要求很高，所以产生想法，做一个工具来辅助这个API项目的测试，减少沟通成本以及QA做regression时的压力。后面准备了下，在2016年农历年后，也就是17年的3月份，正式开始编码实现功能。</p>\n<p>由于不懂设计，所以UI上参考了比较熟悉的一个成名已久的测试工具：Postman，这也导致：即使后来除了UI外，实现了很多Postman没有的功能也还是摆脱不了Postman的影子，不少人一看跟Postman一样，觉得没有意义，在这点上算是一个败笔。不过也因为类Postman UI的易用性，让使用Hitchhiker的人很容易上手，这又是一大优势，算是两者抵消吧。</p>\n<p><img src=\"https://raw.githubusercontent.com/brookshi/images/master/Hitchhiker/collection.png\" alt></p>\n<p>当时，想要通过这个工具解决的问题只有2个：</p>\n<ol>\n<li>\n<p>减少开发的沟通成本，原因是我们的API是面向用户的，依赖公司其他Team的众多API，我们写一个接口可能要调用公司好几个API才能整合出想要的数据，这就需要开发去和好几个team打交道，沟通成本很大。而如果要所有开发都做一遍同样的事情，浪费的时间可想而知。</p>\n</li>\n<li>\n<p>减少浪费QA人力做无聊的数据对比，这个算是自动化的一部分，上面说了，金融数据的准确性是非常关键的，我们的产品又是直面用户的，有问题第一个找到我们头上，所以QA在这方面也非常头痛，以往都是依赖人眼去对比线上和UAT两个版本的报表是否匹配，容易疏忽不说，时间有效的情况下，覆盖率也很难达到要求，且对QA来说，这类事情是最应该自动化的。</p>\n</li>\n</ol>\n<p>解决这2个问题的方案是：</p>\n<ol>\n<li>\n<p>很多工具需要互相share，有更新就share的话也很麻烦。 Hitchhiker支持多人同时在线维护同一份API，支持实时更新，一个开发在完成沟通后，把依赖的API都整理在一起，写好case，其他开发就可以直接借鉴使用了，只花一个人的时间，成果所有开发共享。</p>\n</li>\n<li>\n<p>使用Schedule来实现Case的自动化运行，以及用脚本做断言来判断数据是否正确，但金融数据上经常有动态值，比如求上个月的回报，对今天来说，上个月是1月，但过一个月后，上个月就是2月了，数据很可能就不一样了，所以对这类动态值用断言方式很难解决，Hitchhiker支持在做自动化测试时对比不同环境的数据，我们以线上的数据为准的话就可以知道没上线环境的API运行是否正常了。</p>\n</li>\n</ol>\n<p><img src=\"https://raw.githubusercontent.com/brookshi/images/master/Hitchhiker/schedule.png\" alt></p>\n<p>这两个功能在17年7月左右先后实现，我的API项目的接口测试也陆续加了进去，基本上满足了需求。</p>\n<p>由于项目的API的并发量比较大，在服务器有限的情况下，需要尽量提前优化来提高吞吐，避免上线后出问题，所以需要在测试阶段给到服务器压力，然后在10月份时用Go语言为Hitchhiker实现了压力测试。</p>\n<p><img src=\"https://raw.githubusercontent.com/brookshi/images/master/Hitchhiker/stresstest.gif\" alt></p>\n<p>在0.5版本时用gitbook重写了文档： <a href=\"http://doc.hitchhiker-api.com/cn/\">Hitchhiker使用文档</a></p>\n<p>接下来的一个版本又大幅加强了脚本功能，支持require，支持上传脚本库和数据文件，标志着 NPM 里几十万的js库尽可以拿来用了。</p>\n<p>不过可惜的是基于Go语言写的压力测试由于对js支持有限，不得不放弃，转而使用Node重写了一份压力测试的功能并在v0.6版本上线。</p>\n<p>其实到这时为止，Hitchhiker已经满足我的API项目的需求了，但随着使用者越来越多，需求不断出现，后续的版本基本都在实现这些需求了：</p>\n<p>v0.7：支持自定义smtp，为请求生成各种语言的code，schedule数据不同时的diff展示</p>\n<p>v0.8: 自动化测试结果统计</p>\n<p><img src=\"https://raw.githubusercontent.com/brookshi/images/master/Hitchhiker/schedule/statistics.png\" alt></p>\n<p>v0.9: 基于UI的断言测试</p>\n<p><img src=\"https://raw.githubusercontent.com/brookshi/images/master/Hitchhiker/assert.PNG\" alt></p>\n<p>还有很多功能想要实现，文档，Mock，管理平台等等，将会在接下来的2018里陆续实现。</p>\n<p>在线体验： <a href=\"http://www.hitchhiker-api.com/\">http://www.hitchhiker-api.com/</a>， 可以用 <code>try without login</code> 来免登录使用 （在线演示不支持压力测试和上传js库，虚拟机单核的，撑不住）。</p>\n</div>",
+    "title": "开源 强大的API测试工具Hitchhiker v0.9 基于UI的断言测试，回顾2017",
+    "last_reply_at": "2018-02-06T00:27:29.766Z",
+    "good": false,
+    "top": false,
+    "reply_count": 27,
+    "visit_count": 3353,
+    "create_at": "2017-08-28T10:18:20.121Z",
+    "author": {
+      "loginname": "brookshi",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/13607728?v=4&s=120"
+    }
+  }, {
+    "id": "5a78d3fc5321b5396004ebcb",
+    "author_id": "5a4edbe8ebc575dc49b27157",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>汉化完成，<a href=\"https://zhuanlan.zhihu.com/p/33612220\">https://zhuanlan.zhihu.com/p/33612220</a></p>\n<p>本文也同时发表在我的博客(<a href=\"http://link.zhihu.com/?target=http%3A//holmeshe.me/understanding-react-js-source-code-initial-rendering-VII/\">http://link.zhihu.com/?target=http%3A//holmeshe.me/understanding-react-js-source-code-initial-rendering-VII/</a>)和HACKERNOON(<a href=\"https://hackernoon.com/understanding-the-react-source-code-vii-b08ccb3b3f01\">https://hackernoon.com/understanding-the-react-source-code-vii-b08ccb3b3f01</a>)</p>\n<p>上次我们聊完了Transaction核心类和它的一个实例ReactDefaultBatchingStrategyTransaction。然而这个Transaction 实例仅仅是一个开始 。</p>\n<p>本篇中，我们将探究其它的Transaction 实例。看懂了这些，界面更新逻辑的轮廓就画的出来了。</p>\n</div>",
+    "title": "深入理解React源码 - 界面更新 VII（正式版）",
+    "last_reply_at": "2018-02-05T22:00:28.471Z",
+    "good": false,
+    "top": false,
+    "reply_count": 0,
+    "visit_count": 98,
+    "create_at": "2018-02-05T22:00:28.471Z",
+    "author": {
+      "loginname": "holmeshe",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/30769400?v=4&s=120"
+    }
+  }, {
+    "id": "5a789273cb27e8121481a384",
+    "author_id": "503a6618f767cc9a5104139c",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p><img src=\"//dn-cnode.qbox.me/FuUz-CkuhA3jTSjgvxHthO8z8n-j\" alt=\"屏幕快照 2018-02-06 上午1.18.57.png\"></p>\n<h2>简述</h2>\n<p>React 是一个「视图层」的 UI 框架，以常见的 MVC 来讲 React 仅是 View，而我们在编写应用时，通常还需要关注更加重要的 model，对于 React 来讲，我们常常需要一个「状态管理」库。然而，目前大多数针对 React 的状态管理库都是「强依赖」过多的侵入本应该独立的业务模型中，导致「业务逻辑」对应的代码并不能轻易在其它地方重用，往往这些框架还具有「强排它性」，但是「业务模型」应该是没有过多依赖，应该是无关框架的，它应该随时可以被用在任何合适的 JavaScript 环境中，使用 mota 你可以用原生的普通的 JavaScript 代码编写你的「业务模型」，并让你的「业务模型」在不同框架、不同运行环境下重用更为容易。</p>\n<p>mota 是一个主张「面向对象」的、支持「双向绑定」的 React 应用辅助库，基于 mota 你可以用纯 JavaScript 为应用编写完全面向对象的「业务模型」，并轻易的将「业务模型」关联到 React 应用中。</p>\n<h2>示例</h2>\n<p><a href=\"http://houfeng.net/dn-template-mota/example/\">在线 TodoList 示例</a>\n(<a href=\"https://github.com/Houfeng/dn-template-mota\">示例源码</a>)</p>\n<h2>安装</h2>\n<p>通过 npm 安装，如下</p>\n<pre class=\"prettyprint language-sh\"><code>$ npm i mota --save\n</code></pre><p>或通过 <code>dawn</code> 脚手脚加创建工程，如下</p>\n<pre class=\"prettyprint language-sh\"><code>$ mkdir your_path\n$ cd your_path\n$ dn init -t mota\n$ dn dev\n</code></pre><p>需要先安装 dawn（<a href=\"https://alibaba.github.io/dawn/docs/\">Dawn 安装及使用文档</a>）</p>\n<h2>工程结构</h2>\n<p>一个 <code>mota</code> 工程的通常结构如下</p>\n<pre class=\"prettyprint language-sh\"><code>.\n├── README.md\n├── package.json\n└── src\n    ├── assets\n    │   ├── common.less\n    │   ├── favicon.ico\n    │   └── index.html\n    ├── components\n    │   ├── todoApp.js\n    │   └── todoItem.js\n    ├── index.js\n    └── models\n        ├── TodoItem.js\n        ├── TodoList.js\n        └── index.js\n</code></pre><h2>编写业务模型</h2>\n<p>在 mota 中「模型」可以是由一个 <code>class</code> 或普通的的 <code>Object</code>，整个「业务模型层」会由多个 <code>class</code> 和多个 <code>Object</code> 组成，而编写模型所需要的知识就是 JavaScript 固有的面向对象编程的知识。</p>\n<p>如下示例通过编写一个名为 <code>User</code> 的 <code>class</code> 创建了一个「用户模型」</p>\n<pre class=\"prettyprint language-js\"><code>export default class User {\n  firstName = &#x27;Jack&#x27;;\n  lastName = &#x27;Hou&#x27;;\n  get fullName(){\n    reutrn &#96;${this.firstName} ${this.lastName}&#96;;\n  }\n}\n</code></pre><p>也可以是一个 <code>Object</code>，通常这个模型需要是「单例」时，可采用这种方式，如下</p>\n<pre class=\"prettyprint language-js\"><code>export default {\n  firstName: &#x27;Jack&#x27;,\n  lastName: &#x27;Hou&#x27;,\n  get fullName(){\n    reutrn &#96;${this.firstName} ${this.lastName}&#96;;\n  }\n};\n</code></pre><p>在「业务模型」编写完成后，可以通过 <code>@model</code> 将某个「类」或「类的实例」关联到指定组件，关联后便可以在组件中使用 <code>this.model</code> 访问「模型的成员变量或方法」了，mota 还会自动「收集组件依赖」，在组件「依赖的模型数据」发生变化时，自动响应变化并「驱动组件重新渲染」，如下</p>\n<pre class=\"prettyprint language-js\"><code>import { model,binding } from &#x27;mota&#x27;;\nimport React from &#x27;react&#x27;;\nimport ReactDOM from &#x27;react-dom&#x27;;\nimport User from &#x27;.&#x2F;models&#x2F;user&#x27;;\n\n@model(User)\nclass App extends React.Component {\n\n  onChange(field,event){\n    this.model[field] = event.target.value;\n  }\n\n  render(){\n    return &lt;div&gt;\n      &lt;p&gt;{this.model.fullName}&lt;&#x2F;p&gt;\n      &lt;p&gt;\n        &lt;input onChange={this.onChange.bind(this,&#x27;firstName&#x27;)}&#x2F;&gt;\n        &lt;br&#x2F;&gt;\n        &lt;input onChange={this.onChange.bind(this,&#x27;lastName&#x27;)}&#x2F;&gt;\n      &lt;&#x2F;p&gt;\n    &lt;&#x2F;div&gt;;\n  }\n}\n\nReactDOM.render(&lt;App&#x2F;&gt;, mountNode);\n</code></pre><p>值得注意的是，在使用 <code>@model</code> 时如果传入的是一个 <code>class</code> 最终每个组件实例都会自动创建一个 <code>独立的实例</code>，这样带来的好处是「当一个页面中有同一个组件的多个实例时，不会相互影响」。</p>\n<h2>属性映射</h2>\n<p>在 React 中通常会将应用折分为多个组件重用它们，并在用时传递给它「属性」，mota 提供了将「组件属性」映射到「模型数据」的能力，基于 <code>model</code> 编程会让「视图层」更单一，专注于 UI 的呈现，，如下</p>\n<pre class=\"prettyprint language-js\"><code>@model({ value: &#x27;demo&#x27; })\n@mapping([&#x27;value&#x27;])\nclass Demo extends React.Component {\n  render () {\n    return &lt;div&gt;{this.model.value}&lt;&#x2F;div&gt;;\n  }\n}\n</code></pre><p>上边的代码通过 <code>mapping</code> 将 <code>Demo</code> 这个组件的 <code>value</code> 属性映射到了 <code>model.value</code> 上，在组件的属性 <code>value</code> 发生变化时，会自动同步到 <code>model.value</code> 中。</p>\n<p>通过一个 map 进行映射，还可以让「组件属性」和「模型的成员」使用不同名称，如下:</p>\n<pre class=\"prettyprint language-js\"><code>@model({ value: &#x27;demo&#x27; })\n@mapping({ content: &#x27;value&#x27; })\nclass Demo extends React.Component {\n  render () {\n    return &lt;div&gt;{this.model.value}&lt;&#x2F;div&gt;;\n  }\n}\n</code></pre><p>上边的代码，将组件 demo 的 <code>content</code> 属性映射到了 <code>model.value</code> 上。</p>\n<h2>自执行函数</h2>\n<p>mota 中提供了一个 <code>autorun</code> 函数，可用于装饰 React 组件的成员方法，被装饰的「成员方法」将会在组件挂载后自动执行一次，mota 将「收集方法中依赖的模型数据」，在依赖的模型数据发生变化时会「自动重新执行」对应的组件方法。</p>\n<p>示例</p>\n<pre class=\"prettyprint language-js\"><code>import { Component } from &#x27;react&#x27;;\nimport { model, autorun } from &#x27;mota&#x27;;\nimport DemoModel from &#x27;.&#x2F;models&#x2F;demo&#x27;;\n\n@model(DemoModel)\nexport default Demo extends Component {\n\n  @autorun\n  test() {\n    console.log(this.model.name);\n  }\n\n}\n</code></pre><p>上边的示例代码中，组件在被挂载后将会自动执行 <code>test</code> 方法，同时 mota 会发现方法中依赖了 <code>model.name</code>，那么，在 <code>model.name</code> 发生变化时，就会重新执行 <code>test</code> 方法。</p>\n<h2>监听模型变化</h2>\n<p>mota 中提供了一个 <code>watch</code> 函数，可用于装饰 React 组件的成员方法，<code>watch</code> 可以指定要观察的「模型数据」，在模型数据发变化时，就会自动执行「被装饰的组件方法」，<code>watch</code> 还可以像 <code>autorun</code> 一样自动执行一次，但它和 <code>autorun</code> 还是不尽相同，主要有如下区别</p>\n<ul>\n<li><code>autorun</code> 会自动收集依赖，而 <code>watch</code> 不会关心组件方法中有何依赖，需要手动指定依赖的模型数据</li>\n<li><code>watch</code> 默认不会「自动执行」，需显式的指定「立即执行参数为 true」，才会自动执行首次。</li>\n<li><code>autorun</code> 依赖的是「模型数据」本身，而 <code>watch</code> 依赖的是「计算函数」每次的「计算结果」</li>\n</ul>\n<p>示例</p>\n<pre class=\"prettyprint language-js\"><code>import { Component } from &#x27;react&#x27;;\nimport { model, autorun } from &#x27;mota&#x27;;\nimport DemoModel from &#x27;.&#x2F;models&#x2F;demo&#x27;;\n\n@model(DemoModel)\nexport default Demo extends Component {\n\n  @watch(model=&gt;model.name)\n  test() {\n    console.log(&#x27;name 发生了变化&#x27;);\n  }\n\n}\n</code></pre><p>上边的代码，通过 <code>watch</code> 装饰了 <code>test</code> 方法，并指定了观察的模型数据 <code>model.name</code>，那么每当 <code>model.name</code> 发生变\b化时，都会打印 <code>name 发生了变化</code>.</p>\n<p><code>watch</code> 是否重新执行，取决于 <code>watch</code> 的作为第一个参数传给它的「计算函数」的计算结果，每当依赖的模型数据发生变化时 <code>watch</code> 都会重执行计算函数，当计算结果有变化时，才会执行被装饰的「组件方法」，示例</p>\n<pre class=\"prettyprint language-js\"><code>export default Demo extends Component {\n\n  @watch(model=&gt;model.name+model.age)\n  test() {\n    console.log(&#x27;name 发生变化&#x27;);\n  }\n\n}\n</code></pre><p>有时，我们希望 <code>watch</code> 能首先自动执行一次，那么可通过向第二个参数传一个 <code>true</code> 声明这个 <code>watch</code> 要自动执行一次。</p>\n<pre class=\"prettyprint language-js\"><code>export default Demo extends Component {\n\n  @watch(model=&gt;model.name,true)\n  test() {\n    console.log(&#x27;name 发生变化&#x27;);\n  }\n\n}\n</code></pre><p>上边的 <code>test</code> 方法，将会在「组件挂载之后自动执行」，之后在 <code>model.name</code> 发生变化时也将自动重新执行。</p>\n<h2>数据绑定</h2>\n<h3>基本用法</h3>\n<p>不要惊诧，就是「双向绑定」。<code>mota</code> 主张「面向对象」，同样也不排斥「双向绑定」，使用 mota 能够实现类似 <code>ng</code> 或 <code>vue</code> 的绑定效果。还是前边小节中的模型，我们来稍微改动一下组件的代码</p>\n<pre class=\"prettyprint language-js\"><code>import { model,binding } from &#x27;mota&#x27;;\nimport React from &#x27;react&#x27;;\nimport ReactDOM from &#x27;react-dom&#x27;;\nimport User from &#x27;.&#x2F;models&#x2F;user&#x27;;\n\n@model(User)\n@binding\nclass App extends React.Component {\n  render(){\n    const { fullName, firstName, popup } = this.model;\n    return &lt;div&gt;\n      &lt;p&gt;{fullName}&lt;&#x2F;p&gt;\n      &lt;p&gt;\n        &lt;input data-bind=&quot;firstName&quot;&#x2F;&gt;\n        &lt;button onClick={popup}&gt; click me &lt;&#x2F;button&gt;\n      &lt;&#x2F;p&gt;\n    &lt;&#x2F;div&gt;;\n  }\n}\nReactDOM.render(&lt;App&#x2F;&gt;, mountNode);\n</code></pre><p>其中的「关键」就是 <code>@binding</code>，使用 <code>@binding</code> 后，组件便具备了「双向绑定」的能力，在 <code>jsx</code> 中便可以通过名为 <code>data-bind</code> 的自定义 <code>attribute</code> 进行绑定了，<code>data-bind</code> 的值是一个「绑定表达式字符串」，绑定表达式执行的 <code>scope</code> 是 <code>model</code> 而不是 <code>this</code>，也就是只能与 <code>模型的成员</code> 进行绑定。</p>\n<p>会有一种情况是当要绑定的数据是一个循环变量时，「绑定表达式」写起会较麻烦也稍显长，比如</p>\n<pre class=\"prettyprint language-js\"><code>@model(userModel)\n@binding\nclass App extends React.Component {\n  render(){\n    const { userList } = this.model;\n    return &lt;ul&gt;\n     {userList.map((user,index)=&gt;(\n       &lt;li key={user.id}&gt;\n         &lt;input type=&quot;checkobx&quot; data-bind={&#96;userList[${index}].selected&#96;}&gt;\n         {user.name}\n       &lt;&#x2F;li&gt;\n     ))}\n    &lt;&#x2F;ul&gt;;\n  }\n}\n</code></pre><p>因为「绑定表达式」的执行 <code>scope</code> 默认是 <code>this.model</code>，以及「表达式是个字符串」，看一下 <code>userList[${index}].selected</code> 这并不友好，为此 mota 还提供了一个名为 <code>data-scope</code> 的 <code>attribute</code>，通过它能改变要绑定的 <code>scope</code>，参考如下示例</p>\n<pre class=\"prettyprint language-js\"><code>@model(userModel)\n@binding\nclass App extends React.Component {\n  render(){\n    const { userList } = this.model;\n    return &lt;ul&gt;\n     {userList.map(user=&gt;(\n       &lt;li key={user.id}&gt;\n         &lt;input type=&quot;checkobx&quot; data-scope={user} data-bind=&quot;selected&quot;&gt;\n         {user.name}\n       &lt;&#x2F;li&gt;\n     ))}\n    &lt;&#x2F;ul&gt;;\n  }\n}\n</code></pre><p>通过 <code>data-scope</code> 将 <code>input</code> 的绑定上下文对象声明为当前循环变量 <code>user</code>，这样就可以用 <code>data-bind</code> 直接绑定到对应 <code>user</code> 的属性上了。</p>\n<h3>原生表单控件</h3>\n<p>所有的原生表单控件，比如「普通 input、checkbox、radio、textarea、select」都可以直接进行绑定。其中，「普通 input 和 textrea」比较简单，将一个字符类型的模型数据与控件绑定就行了，而对于「checkbox 和 radio」 有多种不同的绑定形式。</p>\n<p>将「checkbox 或 radio」绑定到一个 <code>boolean</code> 值，此时会将 checkbox 或 radio 的 checked 属性和模型数据建立绑定，checked 反应了 <code>boolean</code> 变量的值，参考如下示例</p>\n<pre class=\"prettyprint language-js\"><code>@model({ selected:false })\n@binding\nclass App extends React.Component {\n  render(){\n    return &lt;div&gt;\n      &lt;input type=&quot;checkbox&quot; data-bind=&quot;selected&quot;&#x2F;&gt;\n      &lt;input type=&quot;radio&quot; data-bind=&quot;selected&quot;&#x2F;&gt;\n    &lt;&#x2F;div&gt;;\n  }\n}\n</code></pre><p>如上示例通过 <code>this.model.selected</code> 就能拿到当前 checkbox 或 radio 的选中状态。</p>\n<p>将 checkbox 绑定到一个「数组」，通常是多个 checkbox 绑定同一个数组变量上，此时和数据建立绑定的是 checkbox 的 value，数据中会包含当前选中的 checkbox 的 value，如下</p>\n<pre class=\"prettyprint language-js\"><code>@model({ selected:[] })\n@binding\nclass App extends React.Component {\n  render(){\n    return &lt;div&gt;\n      &lt;input type=&quot;checkbox&quot; data-bind=&quot;selected&quot; value=&quot;1&quot;&#x2F;&gt;\n      &lt;input type=&quot;checkbox&quot; data-bind=&quot;selected&quot; value=&quot;2&quot;&#x2F;&gt;\n    &lt;&#x2F;div&gt;;\n  }\n}\n</code></pre><p>如上示例，通过 <code>this.selected</code> 就能知道当前有哪些 checkbox 被选中了，并拿到所有选中的 value</p>\n<p>将多个 radio 绑定我到一个「字符类型的变量」，此时和数据建立绑定的是 raido 的 value，因为 radio 是单选的，所以对应的数据是当前选中的 radio 的 value，如下</p>\n<pre class=\"prettyprint language-js\"><code>@model({ selected:&#x27;&#x27; })\n@binding\nclass App extends React.Component {\n  render(){\n    return &lt;div&gt;\n      &lt;input type=&quot;radio&quot; data-bind=&quot;selected&quot; value=&quot;1&quot;&#x2F;&gt;\n      &lt;input type=&quot;radio&quot; data-bind=&quot;selected&quot; value=&quot;2&quot;&#x2F;&gt;\n    &lt;&#x2F;div&gt;;\n  }\n}\n</code></pre><p>通过 <code>this.model.selected</code> 就能拿到当前选中的 radio 的 value</p>\n<h3>自定义组件</h3>\n<p>但是对于一些「组件库」中的「部分表单组件」不能直接绑定，因为 mota 并没有什么依据可以判断这是一个什么组件。所以 mota 提供了一个名为 <code>bindable</code> 的函数，用将任意组件包装成「可绑定组件」。</p>\n<p>bindable 有两种个参数，用于分别指定「原始组件」和「包装选项」</p>\n<pre class=\"prettyprint language-js\"><code>&#x2F;&#x2F;可以这样\nconst MyComponent = bindable(opts, Component);\n&#x2F;&#x2F;也可这样\nconst MyCompoent = bindable(Component, opts);\n</code></pre><p>关建是 <code>bindable</code> 需要的 <code>opts</code>，通过 <code>opts</code> 我们可以造诉 mota 如何绑定这个组件，<code>opts</code> 中有两个重要的成员，它的结构如下</p>\n<pre class=\"prettyprint language-js\"><code>{\n  value: [&#x27;value 对应的属性名&#x27;],\n  event: [&#x27;value 改变的事件名&#x27;]\n}\n</code></pre><p>所以，我们可以这样包装一个自定义文本输入框</p>\n<pre class=\"prettyprint language-js\"><code>const MyInput = bindable(Input,{\n  value: [&#x27;value&#x27;],\n  event: [&#x27;onChange&#x27;]\n});\n</code></pre><p>对这种「value 不需要转换，change 能通过 event 或 event.target.value 拿到值」的组件，通过如上的代码就能完成包装了。</p>\n<p>对于有 <code>onChange</code> 和 <code>value</code> 的这类文本输入组件，因为 opts 的默认值就是</p>\n<pre class=\"prettyprint language-js\"><code>{\n  value: [&#x27;value&#x27;],\n  event: [&#x27;onChange&#x27;]\n}\n</code></pre><p>所以，可以更简单，这样就行，</p>\n<pre class=\"prettyprint language-js\"><code>const MyInput = bindable(Input);\n</code></pre><p>而对于 checkbox 和 radio 来讲，如上边讲到的它「根据不同的数据型有不同的绑定形式」，这就需要指定处理函数了，如下</p>\n<pre class=\"prettyprint language-js\"><code>const radioOpts = {\n  prop: [&#x27;checked&#x27;, (ctx, props) =&gt; {\n    const mValue = ctx.getValue();\n    if (typeof mValue == &#x27;boolean&#x27;) {\n      return !!mValue;\n    } else {\n      return mValue == props.value;\n    }\n  }],\n  event: [&#x27;onChange&#x27;, (ctx, event) =&gt; {\n    const { value, checked } = event.target;\n    const mValue = ctx.getValue();\n    if (typeof mValue == &#x27;boolean&#x27;) {\n      ctx.setValue(checked);\n    } else if (checked) ctx.setValue(value);\n  }]\n};\n</code></pre><p>通过 <code>prop</code> 的第二个值，能指定「属性处理函数」，event 的第二个值能指取「事件处理函数」，处理函数的 <code>ctx</code> 是个特殊的对象</p>\n<ul>\n<li><code>ctx.getValue</code> 能获取「当前绑定的模型数据」</li>\n<li><code>ctx.setValue</code> 能设置「当前绑定的模型数据」</li>\n</ul>\n<p>上边是 <code>radio</code> 的配置，首先，在「属性处理函数」中通过绑定的「模型数据的类型」决定 <code>checked</code> 最终的状态是什么，并在函数中返回。再次，在「事件处理函数」中通过绑定的「模型数据的类型」决定将什么值回写到模型中。</p>\n<p>通过「属性处理函数」和「事件处理函数」几乎就能将任意的自定义组件转换为「可绑定组件」了。</p>\n<p>另外，对于常见的 <code>CheckBox</code> 和 <code>Radio</code> 类型的组件 mota 也提供了内建的 <code>opts</code> 配置支持，如果一个自定义组件拥有和「原生 checkbox 一致的属性和事件模型」，那边可以直接用简单的方式去包装，如下</p>\n<pre class=\"prettyprint language-js\"><code>const MyCheckBox = bindable(&#x27;checkbox&#x27;,CheckBox);\nconst MyRadio = bindable(&#x27;radio&#x27;,Radio);\n</code></pre><p>好了，关于绑定就这些了。</p>\n<h2>文档</h2>\n<ul>\n<li><a href=\"http://houfeng.net/mota/#!/zh/guide/quick\">快速开始</a></li>\n<li><a href=\"http://houfeng.net/mota/#!/zh/guide/model\">编写业务模型</a></li>\n<li><a href=\"http://houfeng.net/mota/#!/zh/guide/mapping\">将组件属性映射到模型</a></li>\n<li><a href=\"http://houfeng.net/mota/#!/zh/guide/autorun\">自执行函数</a></li>\n<li><a href=\"http://houfeng.net/mota/#!/zh/guide/watch\">监听模型变化</a></li>\n<li><a href=\"http://houfeng.net/mota/#!/zh/guide/binding\">将模型数据与表单绑定</a></li>\n</ul>\n<h2>链接</h2>\n<ul>\n<li><a href=\"https://github.com/Houfeng/mota\">开源地址</a></li>\n<li><a href=\"https://github.com/Houfeng/mota/releases\">版本发布日志</a></li>\n<li><a href=\"https://tldrlegal.com/license/mit-license\">MIT 开源协议</a></li>\n</ul>\n</div>",
+    "title": "在 React 工程中利用 Mota 编写面向对象的业务模型",
+    "last_reply_at": "2018-02-05T17:20:51.015Z",
+    "good": false,
+    "top": false,
+    "reply_count": 0,
+    "visit_count": 93,
+    "create_at": "2018-02-05T17:20:51.015Z",
+    "author": {
+      "loginname": "houfeng",
+      "avatar_url": "//gravatar.com/avatar/4ccd30a6ccc36203b826a50047183ea6?size=48"
+    }
+  }, {
+    "id": "5a77c4d6afa0a121784a92e9",
+    "author_id": "5909444b782dbc4b183ecfe2",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>还是图片/文件上传不和业务代码一起，单独做成图库，放在一个机器？</p>\n<p>其中可能涉及一些问题</p>\n<ul>\n<li>\n<p>图片/文件存哪里?</p>\n<ul>\n<li>如果以二进制存分布式数据库，二进制很太，平增负担</li>\n<li>如果存进文件系统，那么ok，存在哪个机器上？</li>\n</ul>\n</li>\n<li>\n<p>图片/文件从哪里读取?</p>\n</li>\n</ul>\n<p>求有经验的大牛分享下</p>\n</div>",
+    "title": "分布式部署的情况下，如何处理上传的图片/文件?",
+    "last_reply_at": "2018-02-05T14:59:36.260Z",
+    "good": false,
+    "top": false,
+    "reply_count": 4,
+    "visit_count": 282,
+    "create_at": "2018-02-05T02:43:34.496Z",
+    "author": {
+      "loginname": "axetroy",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/9758711?v=4&s=120"
+    }
+  }, {
+    "id": "5a77c54e5e20f00d1427ff11",
+    "author_id": "57637029c13e1e492222bd2d",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><h1>前言</h1>\n<p>随着 Web 技术的发展，前后端分离构架变的越来越流行。前后端分离使后端专注于数据处理和定义前端所需要的接口，前端负责数据的展现和交互，大大细化了开发者的职责，提高了开发效率，但与此同时也带来了一些问题：</p>\n<ul>\n<li>对于前端工程师，后端提供的接口文档，大多是不规范的，有使用 wiki 的，有 word 文档的，甚至还有用即时聊天软件沟通的，后端接口对于前端就像一个黑盒子，经常遇到问题是接口因未知原因增加参数了，参数名变了，参数被删除了。对于后端工程师，接口对接时总是需要写冗杂繁琐的文档，需要大量时间去维护接口文档。</li>\n<li>前端开发的功能在后端功能还没完成前，因为前端的功能依赖于后端的数据，导致工作无法顺利展开。为了解决这个问题，有些前端工程师在代码注入 json，还有后端工程师临时搭建一套测试数据服务器，这种情况下势必会影响工作效率和代码质量，也不能及时进行字段的更新。</li>\n<li>接口数据正确性无法得到保证。前端调用后端的接口数据渲染到 视图，数据一旦出错，将会导致视图和交互也出现问题，保证后端接口数据正确性变的愈来愈重要。接口自动化测试就是用来解决这个问题，但传统的接口测试框架使用成本很高，很多团队采用肉眼比对方式，效率很低。</li>\n</ul>\n<h2>相关产品调研</h2>\n<p>我们迫切希望有一款产品能够满足我们的诉求，于是开始寻找市面上类似产品，经过一段时间的分析，最终我们找到了几个比较有代表性的产品 Rap，Nei，Easy-Mock。同时我们按照自己的诉求列出了一些关键的特征：</p>\n<p><img src=\"//dn-cnode.qbox.me/FplMcYb1MT8CWhkWxPYosLUG-DNu\" alt=\"image.png\"></p>\n<p>Nei 是网易前端事业部的产品，在这些产品中算是做得比较好的， nei 是专注做 saas 服务这块，没有开源版本。对于去哪儿内部，肯定不会把公司机密的接口数据放到第三方平台。</p>\n<p>Rap 是阿里妈妈 MUX 团队2013年出的一款产品，从时间上看是同类产品中最早的。Rap 是后端工程师基于 java 开发的，如果想定制部分功能，还需要学习 java，而我们部门大家对 java 都不熟悉。另一方面 Rap 没有接口测试功能，而后端使用其他工具（postman， restlet）测试接口，将导致不能及时更新接口文档。</p>\n<p>Easy-mock 是大搜车无线团队出的一款产品，Easy-mock 定位是接口数据的模拟，解决前端依赖后端接口数据的问题，在同类产品中 mock 服务做得比较好。Easy-mock 专注于前端数据的模拟，但无法解决去哪儿现有的问题。</p>\n<p>Nei，Rap 接口管理平台共同存在的问题是不易维护接口返回数据。笔者曾跟一个使用过 Rap 的后端工程师聊过，他说每次定义后端接口返回数据字段，好几个百个字段需要更新很长时间。Nei，Rap 是基于维护一个 json-schema 方式定义后端返回数据结构，我们假设某个接口有100个字段，如果基于 json-shema 那么就要维护差不多 600 多左右字段的更新。这么大工作量的，很可能导致后端工程师根本没有动力去维护。</p>\n<p>比较遗憾的是，这几款优秀的产品，都缺失了一些我们在意的关键特征。我们可能需要做比较大的改动才能够基本满足自己的需求，这个工作量很有可能会超过重新开发一次。所以我们开始自主研发一个全新的接口管理平台，我们希望它能够提供接口文档管理，接口数据模拟（Mock），接口调试，自动化测试等功能，让前后端接口相关的工作进行的更加高效。这就是 YApi 接口管理平台斐然由来，下面简要聊聊 YApi 是如何实现上述这些特征的。</p>\n<h2>YApi 解决方案</h2>\n<h3>1. 共同维护一份接口定义，连接前后端</h3>\n<p>大家看下图，在后端开发接口过程中，接口开发和测试接口这是必不可少的环节，但文档因为没有跟接口开发和测试联系到一起，被孤立。后端要维护对于他们冗杂繁琐的文档，是件收益很低的事情。没有人喜欢做收益低的事情，所以最终的解决办法就是要提高收益。下面详细说明解决方案。</p>\n<p><img src=\"https://ws1.sinaimg.cn/mw690/006tCP9Lly1fnqxfgd0hkj30lm0tcgog.jpg\" alt></p>\n<p>在接口开发过程中，后端通常都会使用 postman 等类似的工具测试接口，而测试接口是在开发过程中一个必要的过程。假如参数有改动，大家肯定会在 postman 等工具上更新字段和测试接口。由此可以联想到，\n如果能有一款工具既可用来做测试接口，又能作为接口文档工具，将接口文档和接口测试连接到一起，不就解决了此问题。YApi 解决方案是将接口文档和测试通过单一数据源连接到一起，如果有改动，因为改的是单一的数据源，就不会出现更新滞后和不及时问题。</p>\n<h3>2. 前端 Mock Server 方案</h3>\n<p>数据 Mock 服务在开发前期是非常头疼的一个问题。大多数情况下，接口请求参数和返回数据都是后端规定的，在后端接口没有完成之前，接口对于前端就是一个黑洞，可能最初对接口的定义跟实际后端做出的接口会有非常大的不同。这个时候就需要有一个工具，不仅能模拟真实接口的情况，还能关联接口文档，在后端开发过程中，可以随时调整接口定义，并通知给前端开发者改动信息。</p>\n<p>在 YApi 平台，前后端只要维护接口定义的响应数据，就可以生成需要的模拟数据，下面这段代码定义了生成数据模板：</p>\n<pre class=\"prettyprint\"><code>{\n    &quot;errcode&quot;: 0,\n    &quot;errmsg&quot;: &quot;@string&quot;,\n    &quot;data&quot;: {\n        &quot;type&quot;:&quot;@pick(1,2,3)&quot;,\n        &quot;list|1-10&quot;: [{\n            &quot;uid&quot;: &quot;@id&quot;,\n            &quot;username&quot;: &quot;@name&quot;\n        }]\n    }\n}\n\n</code></pre><p>可生成如下的模拟数据：</p>\n<pre class=\"prettyprint\"><code>{\n  &quot;errcode&quot;: 0,\n  &quot;errmsg&quot;: &quot;^*!SF)R&quot;,\n  &quot;data&quot;: {\n    &quot;type&quot;: 2,\n    &quot;list&quot;: [\n      {\n        &quot;uid&quot;: &quot;370000200707276255&quot;,\n        &quot;username&quot;: &quot;Ruth Clark&quot;\n      },\n      {\n        &quot;uid&quot;: &quot;650000200211185728&quot;,\n        &quot;username&quot;: &quot;Anthony Martin&quot;\n      },\n      {\n        &quot;uid&quot;: &quot;370000199201143855&quot;,\n        &quot;username&quot;: &quot;Laura Rodriguez&quot;\n      },\n      {\n        &quot;uid&quot;: &quot;610000198704072775&quot;,\n        &quot;username&quot;: &quot;Anthony Perez&quot;\n      }\n    ]\n  }\n}\n</code></pre><p>以往的数据 mock 方案难免会影响项目源码，yapi 使用了服务器代理的方案，只需要在你的开发机做下服务器反向代理配置，不用修改项目一行源代码，即可获取到所有的 mock 数据。</p>\n<p>基础的 Mock 工具已经能满足大部分的需求了，但有些复杂场景是无法实现的。例如：当我做一个数据列表页面，需要测试某个字段在各种长度下的 ui 表现，还有当数据为空时的 ui 表现。YApi 提供了期望和自定义脚本的功能。\n本文主要介绍自定义脚本功能，期望功能可参考 yapi 平台文档。</p>\n<p>自定义脚本可根据请求的参数，cookie 信息，使用 js 脚本自定义返回的数据。我们假设有个场景，我希望通过 cookie “_type” 控制列表页面数据显示，假设 _type 是 error，那么列表显示异常错误信息；假设 _type 是 empty ，列表显示为空。可使用下面代码实现：</p>\n<pre class=\"prettyprint\"><code>if(cookie._type == &#x27;error&#x27;){\n    mockJson.errcode = 400;\n}\n\nif(cookie._type == &#x27;empty&#x27;){\n    mockJson.data.list = [];\n}\n\n</code></pre><h3>3.自动化测试</h3>\n<p>接口开发完成后，后续的迭代是非常多的，每次对源码的修改，都需要大量的测试才能确保接口是否正确。人工判断肯定是不好的，最好的办法是做成自动化，但自动化测试又是一件成本非常高的事情，需要后端人员和QA人员学习相关的框架，和写大量的代码。YApi 简化了这一个过程，基于一个可视化界面，就算不懂程序开发，只需配置相关的参数和断言语句，就能实现自动化测试，非常的易用。</p>\n<p>除了基本的功能外，YApi 还提供了强大的 pre-script 和可视化表达式功能，pre-script 包括请求参数处理脚本和响应数据处理脚本两部分。通过自定义 js 脚本方式改变请求的参数和返回的 response 数据。他的使用场景如下：</p>\n<ul>\n<li>接口请求参数需要加密及返回 response 解密</li>\n<li>接口请求参数需要添加计算 token</li>\n</ul>\n<p>可视化表达主要是为了方便用户生成自动化测试所用到的参数，通过一个树形选择性，快速引用所依赖的参数值。\n在所有的需要测试的接口配置完成后，点击开始测试，就会按照指定的顺序依次测试所有接口，测试完成后，可查看测试报告。</p>\n<h3>4.插件机制</h3>\n<p>YApi 最强大的一点莫过于他的插件机制，我们去哪儿各个业务线有不同的需求，通过 YApi 预留的钩子，开发不同的插件解决，比如我们现有的 qsso 登录，swagger 数据导入就是通过插件机制实现的，我们团队最近还在跟业务部门讨论使用插件实现压力测试功能等。总得来说，YApi基于插件机制，既满足了产品需求的多样性，又保证了内核足够易用和简洁。</p>\n<h3>5. 开源和易部署</h3>\n<p>为了帮助更多开发者和提升大家的工作效率，YApi 不仅开源到 <a href=\"https://github.com/ymfe/yapi\">github</a>，还提供了一个 cli 工具方便广大开发者部署。使用 yapi-cli 提供的可视化部署方案，即便你不懂任何 nodejs、mongodb 的知识，也能轻松一键部署。</p>\n<h2>后记</h2>\n<p>YApi 已在去哪儿大面积使用，对 200+ 项目接口进行管理，每周有上万次 mock 请求。在开源以后，越来越多的公司和团队使用 YApi， github star 数已经上升到 1.1k了。YApi 在未来还将继续专注于接口管理方面的功能，让 YApi 成为各位开发者的好帮手。</p>\n<h3>访问地址</h3>\n<ul>\n<li>demo 站点：<a href=\"http://yapi.demo.qunar.com\">yapi.demo.qunar.com</a></li>\n<li>github: <a href=\"https://github.com/ymfe/yapi\">github.com/ymfe/yapi</a></li>\n</ul>\n</div>",
+    "title": "我们为什么要做接口管理平台 YApi",
+    "last_reply_at": "2018-02-05T14:33:42.704Z",
+    "good": true,
+    "top": false,
+    "reply_count": 5,
+    "visit_count": 458,
+    "create_at": "2018-02-05T02:45:34.521Z",
+    "author": {
+      "loginname": "suxiaoxin",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/17695103?v=4&s=120"
+    }
+  }, {
+    "id": "58ac640e7872ea0864fedf90",
+    "author_id": "56c336a38442f7e03c7316ae",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><h1>《koa2进阶学习笔记》附教程demo</h1>\n<blockquote>\n<p>第一次写书，如有错误，欢迎指正！O(∩_∩)O~。\n持续更新笔记，后续会根据koa2 正式发布后添加koa2周边生态使用笔记</p>\n</blockquote>\n<h2>GitHub地址</h2>\n<p><a href=\"https://github.com/ChenShenhai/koa2-note/\">https://github.com/ChenShenhai/koa2-note/</a></p>\n<h2>GitBook地址</h2>\n<p><a href=\"https://chenshenhai.github.io/koa2-note/\">https://chenshenhai.github.io/koa2-note/</a></p>\n<h2>目录</h2>\n<ul>\n<li><a href>1. koa2开始</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/start/quick.md\">1.1 快速开始</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/start/async.md\">1.2 async/await使用</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/start/info.md\">1.3 koa2简析结构</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/start/middleware.md\">1.4 koa中间件开发与使用</a></li>\n</ul>\n</li>\n<li><a href>2. 路由</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/route/simple.md\">2.1 原生koa2实现路由</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/route/koa-router.md\">2.2 koa-router中间件</a></li>\n</ul>\n</li>\n<li><a href>3. 请求数据获取</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/request/get.md\">3.1 GET请求数据获取</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/request/post.md\">3.2 POST请求数据获取</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/request/post-use-middleware.md\">3.3 koa-bodyparser中间件</a></li>\n</ul>\n</li>\n<li><a href>4. 静态资源加载</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/static/server.md\">4.1 原生koa2实现静态资源服务器</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/static/middleware.md\">4.2 koa-static中间件</a></li>\n</ul>\n</li>\n<li><a href>5. cookie/session</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/cookie/info.md\">5.1 koa2使用cookie</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/session/info.md\">5.2 koa2实现session</a></li>\n</ul>\n</li>\n<li><a href>6. 模板引擎</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/template/add.md\">6.1 koa2加载模板引擎</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/template/ejs.md\">6.2 ejs模板引擎</a></li>\n</ul>\n</li>\n<li><a href>7. 文件上传</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/upload/busboy.md\">7.1 busboy模块</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/upload/simple.md\">7.2 上传文件简单实现</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/upload/pic-async.md\">7.3 异步上传图片实现</a></li>\n</ul>\n</li>\n<li><a href>8. 数据库mysql</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/mysql/info.md\">8.1 mysql模块</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/mysql/async.md\">8.2 async/await封装使用mysql</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/mysql/init.md\">8.3 项目建表初始化</a></li>\n</ul>\n</li>\n<li><a href>9. JSONP实现</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/jsonp/info.md\">9.1 原生koa2实现JSONP</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/jsonp/koa-jsonp.md\">9.2 koa-jsonp中间件</a></li>\n</ul>\n</li>\n<li><a href>10. 测试</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/test/unit.md\">10.1 单元测试</a></li>\n</ul>\n</li>\n<li><a href>11. debug</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/debug/info.md\">11.1 开发debug</a></li>\n</ul>\n</li>\n<li><a href>12. 项目框架搭建</a>\n<ul>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/project/start.md\">12.1 快速启动</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/project/framework.md\">12.2 框架设计</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/project/layer.md\">12.3 分层操作</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/project/sql.md\">12.4 数据库设计</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/project/route.md\">12.5 路由设计</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/project/webpack2.md\">12.6 webpack2环境搭建</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/project/react.md\">12.7 使用react.js</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/project/sign.md\">12.8 登录注册功能实现</a></li>\n<li><a href=\"https://github.com/ChenShenhai/koa2-note/blob/master/note/project/session.md\">12.9 session登录态判断处理</a></li>\n</ul>\n</li>\n</ul>\n<h2>前言</h2>\n<ul>\n<li>ES6/7 带来的变革</li>\n</ul>\n<p>自ES6确定和ES7的async/await开始普及，node.js的发展变得更加迅速，可以预见到JavaScript中令人“头疼”的多层嵌套回调（注意是”多层嵌套回调“）将会使用Promise + async/await的方式逐渐替代（不是完全替代，多层嵌套回调也有其特殊的应用场景）。</p>\n<ul>\n<li>koa2 大势所趋的前景</li>\n</ul>\n<p>基于async/await实现中间体系的koa2框架将会是是node.js web开发方向大势所趋的普及框架。基于generator/yield的koa1将会逐渐被koa2替代，毕竟使用co.js来处理generator是一种过渡的方式，虽然有其特定的应用场景，但是用async/await会更加优雅地实现同步写法。</p>\n<h2>初衷</h2>\n<ul>\n<li>写笔记目的</li>\n</ul>\n<p>从学生到工作写了几年的代码，觉得虽然学习新语言，新框架的主要目的是为了解决实际问题，其中更重要的是要每次入门了一门新技术后要及时留下点学习的痕迹，方便以后忘记可以从学习轨迹中迅速上手。</p>\n</div>",
+    "title": "《koa2进阶学习笔记》写了关于koa2入门教程的书【持续更新...】",
+    "last_reply_at": "2018-02-05T14:32:25.571Z",
+    "good": false,
+    "top": false,
+    "reply_count": 39,
+    "visit_count": 31280,
+    "create_at": "2017-02-21T16:00:14.030Z",
+    "author": {
+      "loginname": "ChenShenhai",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8216630?v=4&s=120"
+    }
+  }, {
+    "id": "5a785818afa0a121784a9327",
+    "author_id": "586ef6ea04dcf9a706a74579",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>development: {\n\t  database: null,\n\t  username: null,\n\t  password: null,\n\t  host: null,\n\t  dialect: ‘mysql’,\n\t  replication: {\n\t\tread: [{\n\t\t  database: ‘xxx_copy’,\n\t\t  username: ‘root’,\n\t\t  password: null,\n\t\t  host: ‘127.0.0.1’,\n\t\t  port: 3306,\n\t\t  pool: {},\n\t\t}],\n\t\twrite: {\n\t\t  database: ‘xxx’,\n\t\t  username: ‘root’,\n\t\t  password:null,\n\t\t  host: ‘127.0.0.1’,\n\t\t  port: 3306,\n\t\t  pool: {},\n\t\t}\n\t  },\n\t  pool: {\n\t\t// 重写链接池\n\t\tmax: 20,\n\t\tidle: 30000\n\t  },\n\t}\n\t// 连接池生成的实例拿的是 主数据库 write的模型对象\n\t// read配置的数据库也连接成功 但是拿不到从数据库 read的实例啊</p>\n</div>",
+    "title": "node 的 orm模块 sequelize实现 MySQL的读写分离时 怎么获取只读的对象来 curd实现操作",
+    "last_reply_at": "2018-02-05T13:11:52.839Z",
+    "good": false,
+    "top": false,
+    "reply_count": 0,
+    "visit_count": 129,
+    "create_at": "2018-02-05T13:11:52.839Z",
+    "author": {
+      "loginname": "w3cshare",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/22211924?v=4&s=120"
+    }
+  }, {
+    "id": "5a7832f0afa0a121784a9324",
+    "author_id": "57313dd2f69a97bb58747024",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><pre class=\"prettyprint\"><code>有人配置过nginx + wss 没 ？\n最近遇到一个难题，跟pomelo有关。 \npomelo有gate, connector两种类型的服务器， 想通过nginx配置，达到访问wss:&#x2F;&#x2F;host&#x2F;gate , wss:&#x2F;&#x2F;host&#x2F;connector访问到一下两组服务器\n\nupstream gate{\n    gate-server:3014;\n}\nupstream connector{\n   connector-server:3015;\n   connector-server:3016;\n}\n有谁对nginx配置比较熟悉的，还请不吝赐教。 🙏\n</code></pre></div>",
+    "title": "pomelo + nginx + wss配置问题请教",
+    "last_reply_at": "2018-02-05T10:33:20.312Z",
+    "good": false,
+    "top": false,
+    "reply_count": 0,
+    "visit_count": 150,
+    "create_at": "2018-02-05T10:33:20.312Z",
+    "author": {
+      "loginname": "NextZeus",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/10203487?v=4&s=120"
+    }
+  }, {
+    "id": "56a3c8f47ec020ed4b96b2cd",
+    "author_id": "556d9f40bf871b3962efb841",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>本篇文章翻译自expressjs官方网站，源地址如下：<a href=\"http://expressjs.com/en/advanced/best-practice-performance.html\">express最佳实践</a> ,分别从dev角度和ops角度讨论了如何提升express应用的运行性能以及部署的最佳方式。</p>\n<p>欢迎访问<a href=\"http://jsmean.com/blog/post/56a3b2947b7d4ff930cc7475\">个人blog</a>查看本文内容。</p>\n<h3>针对开发者需要注意的问题</h3>\n<p>对于一个express应用我们，一般有以下的几种方法来提升应用的运行效率以及响应率。</p>\n<ol>\n<li>使用gzip压缩</li>\n<li>代码中不要使用同步函数</li>\n<li>使用中间件处理静态文件</li>\n<li>合理的日志处理方法</li>\n<li>正确的处理异常</li>\n</ol>\n<p>以下我们将分别对于每个子项目进行展开分析。</p>\n<h5>1.使用gzip压缩</h5>\n<p>使用gzip压缩可以显著的减小响应包的大小，这样就提升了客户端的响应速度，我们可以通过使用compression中间件来处理gzip的压缩。对于一个大量用户的网站，最佳的方式是在反向代理端设置压缩方式。可以参考我的另一篇文章专门介绍如何配置nginx来处理压缩和静态文件的。这样的话，我们在代码端就不用再调用compression中间件了，nginx会帮助我们完成此项工作。</p>\n<pre class=\"prettyprint\"><code>var compression = require(&#x27;compression&#x27;);\nvar express = require(&#x27;express&#x27;);\nvar app = express();\napp.use(compression());\n</code></pre><h5>2.不要使用同步函数</h5>\n<p>我们知道node主进程为一个单一线程的程序(异步处理为多线程)。主线程中如果我们调用一些同步函数，而且这些同步函数执行时间较长，则会影响后续程序的执行等待时间。针对web端则表现为其他用户的访问延迟增大。所以在生产环境中，即便一个返回几个微妙的程序，对于大量用户的访问都将会造成积累效应。所以尽量使用异步的方式去编写代码。</p>\n<p>如果使用Node.js 4.0+ 或者 io.js 2.1.0+,可以使用参数 --trace-sync-io 去打印针对同步函数的告警信息。</p>\n<h5>3.使用中间件来处理静态文件</h5>\n<p>我们有时候调用res.sendFile()来处理静态文件，但是不要在生产环境中使用，这样会针对每个请求都去读该文件，不仅没有效率而且影响整体的性能，可以通过使用serve-static中间件来处理文件，但是我们推荐的更好的方式是使用nginx等反向代理静态文件。</p>\n<h5>4.合理的日志处理方式</h5>\n<p>我们在开发环境中有时候会通过console.log或者console.err标记一些点或者调试输出内容.但是这些函数都是同步的，将输出内容输出到终端与输出到文件的道理是相同，所以在生产环境中不要这样做。除非不得已去讲输出传递到另一个程序中的时候。我们可以使用debug模块来实现输出，该模块将判断环境变量是否是开发环境，执行debug输出，保证你的程序的异步处理。对于记录日志的话，大家可以参考一篇针对日志系统的比较文章<a href=\"https://strongloop.com/strongblog/compare-node-js-logging-winston-bunyan/?_ga=1.264536015.1196661681.1453521338\">比较Winston和Bunyan</a>。</p>\n<h5>5. 正确的处理异常</h5>\n<p>首先对于node程序来说，一旦遇到不可处理的异常，则整个进程就会down掉，如果我们配置了pm2或者forever这样的进程管理工具的话，他会帮助我们去处理我们的程序失败自启动。</p>\n<p>对于代码中异常的处理我们一般的使用方法：</p>\n<ol>\n<li>使用try-catch</li>\n<li>使用<a href=\"http://expressjs.com/en/advanced/best-practice-performance.html#promises\">promises</a></li>\n</ol>\n<p>这里有一篇文章比较详细的介绍了如何构建健壮的程序来处理错误异常，供参考<a href=\"https://strongloop.com/strongblog/robust-node-applications-error-handling/?_ga=1.24936442.1196661681.1453521338\">链接地址</a></p>\n<p>不要使用uncaughtException来处理所有的异常，虽然一定程度上可以导致你的程序不中断，但是程序将包含不稳定的代码持续的运行下去，这样的代码运行在线上可能造成的后果更加的严重，甚至有过建议将该错误处理方式移除node内核。</p>\n<p>也不要使用domains来处理错误，该模块已被标记为待移除模块。</p>\n<p>使用try-catch是一种比较简单的错误处理方式，比如下面的代码：</p>\n<pre class=\"prettyprint\"><code>app.get(&#x27;&#x2F;search&#x27;, function (req, res) {\n &#x2F;&#x2F; Simulating async operation\n setImmediate(function () {\n   var jsonStr = req.query.params;\n   try {\n     var jsonObj = JSON.parse(jsonStr);\n     res.send(&#x27;Success&#x27;);\n   } catch (e) {\n     res.status(400).send(&#x27;Invalid JSON string&#x27;);\n   }\n });\n});\n</code></pre><p>但是我们知道try-catch只能应用在同步的代码上面，对于异步的代码处理我们无法使用该方式进行处理。对于异步代码的异常处理我们可以使用promises来完成。只需要增加一个catch()方法就可以捕获流程中的整个代码块的异常。</p>\n<pre class=\"prettyprint\"><code>app.get(&#x27;&#x2F;&#x27;, function (req, res, next) {\n  &#x2F;&#x2F; do some sync stuff\n  queryDb()\n    .then(function (data) {\n      &#x2F;&#x2F; handle data\n      return makeCsv(data)\n    })\n    .then(function (csv) {\n      &#x2F;&#x2F; handle csv\n    })\n    .catch(next);\n});\n\napp.use(function (err, req, res, next) {\n  &#x2F;&#x2F; handle error\n});\n</code></pre><p>当然了，我们需要在每个代码块中都加入promises返回。更多的信息可以参考一下链接<a href=\"https://strongloop.com/strongblog/async-error-handling-expressjs-es7-promises-generators/?_ga=1.235763905.1196661681.1453521338\">Asynchronous Error Handling in Express with Promises, Generators and ES7</a>。</p>\n<h3>生产环境安装部署</h3>\n<p>以下我们讨论的是针对生产环境中express应用安装部署上需要注意的问题。</p>\n<ol>\n<li>设置NODE_ENV为“production”</li>\n<li>确保应用的自动重启</li>\n<li>将应用部署一个集群中</li>\n<li>缓存请求结果</li>\n<li>使用负载均衡</li>\n<li>使用反向代理</li>\n</ol>\n<h5>1. 设置运行环境变量</h5>\n<p>一般我们设置node环境变量有两种，分别是 development 和 production。设置环境变量为production将会使得express应用</p>\n<ol>\n<li>缓存视图模板</li>\n<li>缓存css文件</li>\n<li>生成更少的冗余错误信息</li>\n</ol>\n<p>另外如果大家感兴趣的话可以查看这篇文章<a href=\"http://apmblog.dynatrace.com/2015/07/22/the-drastic-effects-of-omitting-node_env-in-your-express-js-applications/\">环境变量测试</a>，这里作者对于设置该变量前后做了一些性能上的对比，非常详细。</p>\n<p>如果我们使用upstart来管理应用的话我们需要配置文件中加入环境变量</p>\n<pre class=\"prettyprint\"><code># &#x2F;etc&#x2F;init&#x2F;env.conf\nenv NODE_ENV=production\n</code></pre><p>如果是使用systemd来管理的话，则修改配置文件如下：</p>\n<pre class=\"prettyprint\"><code># &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;myservice.service\nEnvironment=NODE_ENV=production\n</code></pre><h5>2.确保自启动</h5>\n<p>这里自启动不仅仅指的是如何在程序异常终止之后启动而且还要保证程序在操作系统重启之后能自启动。这里我们分别介绍下两种情况。</p>\n<ol>\n<li>使用一个进程管理器</li>\n</ol>\n<p>进程管理器一般可以帮助我们，获得进程的运行性能和资源的消耗，动态的修改配置提升性能，集群控制。这里我么推荐的一般可以使用strongloop process manager或者pm2还有forever，同样详细的参考如下链接<a href=\"http://strong-pm.io/compare/?_ga=1.20403576.1196661681.1453521338\">进程管理器比较</a>\n通过上述的比较我们可以看出，strongloop的进程管理器支持的特性更丰富一些，特别是查看cpu占用堆占用，集成操作系统脚本，远程管理集群等等。</p>\n<ol>\n<li>随系统启动的程序自启动</li>\n</ol>\n<p>随系统启动的程序，我们可以使用之前的进程管理器，forever应该是不支持的。其他的都可以生成对应的启动脚本，当操作系统启动的时候，进程管理器启动，并带动程序的启动。或者我们可以直接配置使用systemd等方式来管理进程的开机启动。\n我们这里简单的通过介绍systemd的方式来介绍如何设置程序的随系统启动。systemd是一个linux系统的服务管理器。一个systemd的配置文件被称作为unit file.以.service为后缀。</p>\n<pre class=\"prettyprint\"><code>[Unit]\nDescription=Awesome Express App\n\n[Service]\nType=simple\nExecStart=&#x2F;usr&#x2F;local&#x2F;bin&#x2F;node &#x2F;projects&#x2F;myapp&#x2F;index.js\nWorkingDirectory=&#x2F;projects&#x2F;myapp\n\nUser=nobody\nGroup=nogroup\n\n# Environment variables:\nEnvironment=NODE_ENV=production\n\n# Allow many incoming connections\nLimitNOFILE=infinity\n\n# Allow core dumps for debugging\nLimitCORE=infinity\n\nStandardInput=null\nStandardOutput=syslog\nStandardError=syslog\nRestart=always\n\n[Install]\nWantedBy=multi-user.target\n</code></pre><h5>3. 将app运行在一个集群中</h5>\n<p>在多核心处理上运行的应用，可以通过使用cluster模块启动多个实例运行在不同的处理器上。并在多个实例上实现“负载均衡”。\n<img src=\"http://expressjs.com/images/clustering.png\" alt=\"image\">\n但是对于不同的实例，由于内存空间的隔离，导致所有的程序对象都是本地的，无法实现共享，但是我们可以借助于redis这样的工具实现对象的共享。并且对于某个进程的终端不会影响其他进程的处理，只需要在编写代码的时候记录此次终端并生成一个新的实例即可。</p>\n<p>我们可以使用node的cluster模块（需要编写代码实现）或者是strongloop的进程管理器来处理，并且不需要修改代码。strongloop PM将根据cpu的数目自动的生成多个进程，并且可以手动调整该值。</p>\n<h5>4. 缓存请求</h5>\n<p>使用缓存，可以极大的提升响应速度，而不需要对于重复的请求做重复的操作。我们可以使用nginx<a href=\"https://serversforhackers.com/nginx-caching/\">缓存配置</a>来配置缓存</p>\n<h5>5. 使用负载均衡</h5>\n<p>单一的express进程服务，不管如何优化都无法达到一个很高的性能需求，特别是对于一个拥有很多用户的web应用。我们可以通过使用一个负载均衡器来完成应用的水平的扩展。比如使用nginx或者HAProxy来完成负载均衡。在使用负载均衡的时候，我们可能需要确保每一个请求关联相对应的会话ID落到同一个进程上。这里有一篇文章可以供参考，了解如何配置负载均衡<a href=\"http://socket.io/docs/using-multiple-nodes/\">socket.io配置负载均衡</a></p>\n<p>另外strongloop pm可以很好的与nginx配合设置负载均衡。</p>\n<h5>6. 反向代理服务</h5>\n<p>反向代理服务器一般设置在请求入口处，完成错误页面处理，压缩处理，缓存和静态文件处理，负载均衡操作等等。具体的可参考nginx或者HAProxy的配置来完成反向代理服务的搭建。</p>\n<p>PS: 个人网站 <a href=\"http://www.jsmean.com\">www.jsmean.com</a> 。基于mean stack 开发。主要是讨论一些js相关内容，欢迎大家访问</p>\n</div>",
+    "title": "Express 开发与部署最佳实践",
+    "last_reply_at": "2018-02-05T10:28:04.702Z",
+    "good": true,
+    "top": false,
+    "reply_count": 88,
+    "visit_count": 24256,
+    "create_at": "2016-01-23T18:39:48.809Z",
+    "author": {
+      "loginname": "zhangmingkai4315",
+      "avatar_url": "https://avatars6.githubusercontent.com/u/8868334?v=4&s=120"
+    }
+  }, {
+    "id": "5a67ede59288dc81532880fb",
+    "author_id": "57371e42c3e4ef7657ab135a",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>分享一个自己做的实时代码检索插件： <a href=\"https://spacevim.org/grep-on-the-fly-in-spacevim/#.Wmda5XEKGuE.reddit\">Asynchronous grep on the fly</a></p>\n<p>直接分享一个<strong>实际使用</strong>的效果图吧，可以用来全工程检索，当然也支持只搜索已打开的文件，甚至只搜索当前文件：</p>\n<p><img src=\"https://user-images.githubusercontent.com/13142418/35278709-7856ed62-0010-11e8-8b1e-e6cc6374b0dc.gif\" alt=\"searching project\"></p>\n</div>",
+    "title": "实时代码检索插件",
+    "last_reply_at": "2018-02-05T10:11:04.464Z",
+    "good": false,
+    "top": false,
+    "reply_count": 1,
+    "visit_count": 429,
+    "create_at": "2018-01-24T02:22:29.171Z",
+    "author": {
+      "loginname": "wsdjeg",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/13142418?v=4&s=120"
+    }
+  }, {
+    "id": "5a672e4e9288dc81532880e3",
+    "author_id": "5a1d4b73476ea1170b733b83",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>由于最近写项目要使用socekt.io技术，于是研究了一段时间，把自己早期学习阶段写的小游戏改造了一下，变成了一个比较完整的小程序。<a href=\"http://fengxu.ink:5001\">点击这里</a>可以体验游戏,建议使用手机模式查看，也可以下载打包好的webapp，安卓版已上架酷安市场,扫码可下载体验：</p>\n<p><img src=\"https://www.coolapk.com/qr/image?data=base64:aHR0cHM6Ly93d3cuY29vbGFway5jb20vYXBrL2NvbS5meC5nb2Jhbmc_ZnJvbT1xcg~~&amp;h=3e39a3df\" alt></p>\n<p>整个东西其实很简单，游戏界面使用canvas绘制，AI算法来自慕课网学习视频，联机对战使用socket.io实现实时推送，完整代码已经开源，<a href=\"https://github.com/fx109138/gobang\">点击传送</a>，喜欢的给个star，欢迎fork，更欢迎指出不足，提出建议。</p>\n<p>更多内容也欢迎访问我的主页<a href=\"https://fx109138.github.io\">点击传送</a></p>\n</div>",
+    "title": "socket.io练手小项目开发实战",
+    "last_reply_at": "2018-02-05T10:03:18.942Z",
+    "good": false,
+    "top": false,
+    "reply_count": 7,
+    "visit_count": 895,
+    "create_at": "2018-01-23T12:45:02.647Z",
+    "author": {
+      "loginname": "fx109138",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/20787523?v=4&s=120"
+    }
+  }, {
+    "id": "5a78179e5321b5396004ebb4",
+    "author_id": "5a1b9fb2227353e00378f11b",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>一般还算完整的Web项目，\n数据库，后端，前端三部分必不可少。\n数据库需要启动数据库服务。\n后端需要启动node服务。\n前端需要启动build或者start。\n每次的重新开机就意味着这些操作要重来。\n写个简单的批处理(.bat)命令就能一键完成。</p>\n<p>例子：startup.bat\n1.新建文本文档\n2.关闭所有命令的回显</p>\n<blockquote>\n<p><a href=\"/user/echo\">@echo</a> off</p>\n</blockquote>\n<p>3.管理员身份</p>\n<blockquote>\n<p>mode con lines=30 cols=60\n%1 mshta vbscript:CreateObject(“Shell.Application”).ShellExecute(“cmd.exe”,&quot;/c %~s0 ::&quot;,&quot;&quot;,“runas”,1)(window.close)&amp;&amp;exit\ncd /d “%~dp0”</p>\n</blockquote>\n<p>4.查看MongoDB服务是否开启</p>\n<blockquote>\n<p>sc query MongoDB|Find “RUNNING”||sc Start MongoDB</p>\n</blockquote>\n<p>5.打开cmd运行parse-server（/k保持命令行执行完不关闭）</p>\n<blockquote>\n<p>start cmd /k “parse-server --appId APPLICATION_ID --masterKey MASTER_KEY --databaseURI mongodb://localhost/test”</p>\n</blockquote>\n<p>6.打开cmd运行parse-dashboard</p>\n<blockquote>\n<p>start cmd /k “parse-dashboard --appId APPLICATION_ID  --masterKey MASTER_KEY  --serverURL “<a href=\"http://localhost:1337/parse\">http://localhost:1337/parse</a>” --appName app --allowInsecureHTTP”</p>\n</blockquote>\n<p>7.打开cmd启动后端服务</p>\n<blockquote>\n<p>start cmd /k “cd /d d:\\project\\demo\\server&amp;&amp;npm run server”</p>\n</blockquote>\n<p>8.打开cmd启动start</p>\n<blockquote>\n<p>start cmd /k “cd /d d:\\project\\demo\\client&amp;&amp;npm run start”</p>\n</blockquote>\n<p>9.保存，修改后缀为.bat\n10.双击.bat文件。</p>\n<p>如果想开机后就自动运行，找到启动文件夹\nC:\\Users\\zhaoy\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\n将批处理文件复制到该目录下。\n重启试试。</p>\n<p><a href=\"https://www.jianshu.com/p/328254a7ca2c\">简书</a></p>\n</div>",
+    "title": "一键部署Web项目",
+    "last_reply_at": "2018-02-05T08:36:46.832Z",
+    "good": false,
+    "top": false,
+    "reply_count": 0,
+    "visit_count": 194,
+    "create_at": "2018-02-05T08:36:46.832Z",
+    "author": {
+      "loginname": "zhaoyu69",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/23548734?v=4&s=120"
+    }
+  }, {
+    "id": "5a7805ceafa0a121784a9310",
+    "author_id": "59315c6d64c9781e4812c952",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>1.使用重定向功能代码如下</p>\n<pre class=\"prettyprint\"><code>router.redirect(&quot;&#x2F;&quot;, &#x27;&#x2F;back&#x2F;developer&#x2F;getting-started&#x27;);\nrouter.all([&#x2F;\\&#x2F;.*&#x2F;],async ctx =&gt;{\n  await ctx.render(&#x27;index&#x27;)\n})\n</code></pre><p>我在访问 localhost:5757的时候不会产生重定向的作用\n如果写成如下</p>\n<pre class=\"prettyprint\"><code>router.redirect(&quot;&#x2F;front&#x2F;developer&#x2F;getting-started&quot;, &#x27;&#x2F;back&#x2F;developer&#x2F;getting-started&#x27;);\nrouter.all([&#x2F;\\&#x2F;.*&#x2F;],async ctx =&gt;{\n  await ctx.render(&#x27;index&#x27;)\n})\n</code></pre><p>我在<code>front/developer/getting-started</code>的时，刷新页面可以重定向到相应页面，\n也就是说&quot;/&quot;不起作用\n以下是全部代码部分</p>\n<pre class=\"prettyprint\"><code>const Koa = require(&#x27;koa&#x27;)\nconst app = new Koa()\nconst debug = require(&#x27;debug&#x27;)(&#x27;koa-weapp-demo&#x27;)\nconst bodyParser = require(&#x27;koa-bodyparser&#x27;)\nconst koaStatic = require(&#x27;koa-static&#x27;)\nconst views = require(&#x27;koa-views&#x27;);\nconst proxy = require(&#x27;koa-proxy&#x27;);\nconst config = require(&#x27;.&#x2F;config&#x27;);\n\nconst job = require(&quot;.&#x2F;jobs&#x2F;syncMd&quot;);\njob.start();\n\napp.use(koaStatic(__dirname + &#x27;&#x2F;static&#x27;));\n\n&#x2F;&#x2F; 解析请求体\napp.use(bodyParser())\n\n&#x2F;&#x2F; Must be used before any router is used\napp.use(views(__dirname + &#x27;&#x2F;views&#x27;));\n\n\nconst router = require(&#x27;.&#x2F;router&#x27;)\n\n&#x2F;*\n todo特别迷!重定向又不起作用了,在前端去重定向了\n *&#x2F;\n&#x2F;&#x2F; router.redirect(&quot;&#x2F;&quot;, &#x27;&#x2F;back&#x2F;developer&#x2F;getting-started&#x27;);\nrouter.all(&#x27;&#x2F;&#x27;, ctx =&gt; {\n  ctx.redirect(&#x27;&#x2F;back&#x2F;developer&#x2F;getting-started&#x27;);\n  ctx.status = 301;\n});\nrouter.all([&#x2F;\\&#x2F;.*&#x2F;],async ctx =&gt;{\n  await ctx.render(&#x27;index&#x27;)\n})\n\n&#x2F;&#x2F; 引入路由分发\n\napp.use(router.routes())\n  .use(router.allowedMethods())\n\n&#x2F;&#x2F; 启动程序，监听端口\nconsole.log(&quot;listening &quot;+config.port);\napp.listen(config.port, () =&gt; debug(&#96;listening on port ${config.port}&#96;))\n</code></pre><p>多谢</p>\n</div>",
+    "title": "关于koa-router的redirect的问题",
+    "last_reply_at": "2018-02-05T08:07:32.580Z",
+    "good": false,
+    "top": false,
+    "reply_count": 1,
+    "visit_count": 151,
+    "create_at": "2018-02-05T07:20:46.694Z",
+    "author": {
+      "loginname": "tangtangtangtangtang",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/24206594?v=4&s=120"
+    }
+  }, {
+    "id": "5a772c115e20f00d1427fef9",
+    "author_id": "58de5214b3e60b982d089dc3",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><h2>前言</h2>\n<p>基于本人在现在公司的Node微服务实践, 不断维护升级着一个Node Restful API种子项目, 特此共享出来以供借鉴和讨论. 项目中几乎所有的东西都使用了node/javascript及相应模块的最新功能, 语法, 和实践.</p>\n<p>接<a href=\"https://xiaozhongliu.github.io/2018/01/25/Node-API%E7%BB%8F%E9%AA%8C%E4%B8%8E%E7%A7%8D%E5%AD%90%E9%A1%B9%E7%9B%AE%E5%88%86%E4%BA%AB-(%E4%B8%80)%E9%A1%B9%E7%9B%AE%E7%BB%BC%E8%BF%B0.html\">上一篇帖子</a>, 本次分享将会对此项目提供的各个主要功能不分先后做下详细介绍.\n项目github仓库地址, 欢迎star: <a href=\"https://github.com/xiaozhongliu/node-api-seed\">https://github.com/xiaozhongliu/node-api-seed</a></p>\n<h2>详解</h2>\n<h3>项目目录结构</h3>\n<pre class=\"prettyprint language-text\"><code>    .vscode          VSC服务调试&#x2F;测试调试配置  \n    config           多环境服务配置, 不依赖外部逻辑  \n    ctrl             控制器, 基本与路由对应  \n    log              服务请求日志, 自动生成  \n    midware          \bexpress服务中间件  \n    model            数据库模型: mongo, postgres&#x2F;mysql  \n    service          服务层, 供控制器&#x2F;中间件调用  \n    test             API测试, 运行命令npm t  \n    util             各种工具库, 仅依赖\b系统配置  \n    .eslintrc.js     eslint规则配置  \n    app.js           \b应用服务入口文件  \n    global-helper.js 挂载少许全局helper  \n    message.js       集中管理接口&#x2F;系统消息  \n    package.json     应用服务包配置文件  \n    pm2.config.js    多环境pm2配置文件  \n    router.js        集中管理服务路由  \n</code></pre><h3>项目首次运行</h3>\n<p>首次运行项目进行测试, 先脚本建表或执行<a href=\"http://docs.sequelizejs.com/manual/tutorial/models-definition.html#database-synchronization\">User.sync()</a>将表结构同步到数据库.\n服务运行起来之后, 直接使用postman来实验提供的接口:<br>\n<a href=\"https://app.getpostman.com/run-collection/8604e2c0f63b4137dd70#?env%5Bz_home%20dev%5D=W3siZW5hYmxlZCI6dHJ1ZSwia2V5IjoiTk9ERV9TRUVEX0hPU1QiLCJ2YWx1ZSI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMSIsInR5cGUiOiJ0ZXh0In0seyJlbmFibGVkIjp0cnVlLCJrZXkiOiJVU0VSX1NZU1RFTV9IT1NUIiwidmFsdWUiOiJodHRwOi8vbG9jYWxob3N0OjMxMDAiLCJ0eXBlIjoidGV4dCJ9LHsiZW5hYmxlZCI6dHJ1ZSwia2V5IjoiU1BSSU5HX1NFRURfSE9TVCIsInZhbHVlIjoiaHR0cDovL2xvY2FsaG9zdDo5MTA1IiwidHlwZSI6InRleHQifSx7ImVuYWJsZWQiOnRydWUsImtleSI6IkZFSUdOX0NPTlNVTUVSIiwidmFsdWUiOiJodHRwOi8vbG9jYWxob3N0Ojg3NjIiLCJ0eXBlIjoidGV4dCJ9LHsiZW5hYmxlZCI6dHJ1ZSwia2V5IjoiWlVVTF9HQVRFV0FZIiwidmFsdWUiOiJodHRwOi8vbG9jYWxob3N0Ojg3NjMiLCJ0eXBlIjoidGV4dCJ9XQ==\"><img src=\"https://run.pstmn.io/button.svg\" alt=\"Run in Postman\"></a>\n<img src=\"https://raw.githubusercontent.com/xiaozhongliu/xiaozhongliu.github.io/master/assets/posts/20180202/postman.png\" alt></p>\n<h3>路由\b注册扩展</h3>\n<p><strong>代码文件</strong>: <em>router.js</em>\n自动判断有没有控制器对应的接口数据校验规则集合, 如有则采用.\n包装控制器来统一捕捉抛出的非预期错误, 并将在app.js中最后一个中间件发送告警邮件.\n提供基础健康检查接口.</p>\n<h3>接口数据校验</h3>\n<p><strong>代码文件</strong>: <em>midware/validate.js</em> &amp; <em>util/validator.js</em>\n\b按约定声明与控制器名称相同的接口数据校验规则集合, 即可在请求时进行验证. 例如:</p>\n<pre class=\"prettyprint language-js\"><code>&#x2F;**\n* validate api: login\n*&#x2F;\nlogin: [\n    &#x2F;&#x2F; 参数名     参数类型     是否必传\n    [&#x27;sysType&#x27;, Type.Number, true],\n    [&#x27;username&#x27;, Type.String, true],\n    [&#x27;password&#x27;, Type.String, true],\n],\n</code></pre><p>类型校验方法大多是express-validator模块提供的, 可以\b自定义类型及其校验方法. 例如:</p>\n<pre class=\"prettyprint language-js\"><code>isHash(value) {\n    return &#x2F;^[a-f0-9]{32}$&#x2F;i.test(value)\n},\n\nisUnixStamp(value) {\n    return &#x2F;^[0-9]{10}$&#x2F;.test(value)\n},\n</code></pre><h3>无效请求过滤</h3>\n<p><strong>代码文件</strong>: <em>midware/auth.js</em>\n此中间件做的无效请求过滤, 和认证没关系. 具体通过header中传来的ts和token校验请求有效性.\nts或token未传则会直接回绝请求, 这个可以过滤掉95%以上的无效请求了.\nts和token对校验失败回绝请求, 不会执行后续业务逻辑.\nts和token的计算规则参考中间件代码, 客户端要以相同的规则计算后传入, 参考postman中Pre-request Script:</p>\n<pre class=\"prettyprint language-js\"><code>const ts = new Date().getTime();\nconst TOKEN = &quot;08fbf466b37a924a8b3d3b2e6d190ef3&quot;;\n\npostman.setGlobalVariable(&quot;ts&quot;, ts);\npostman.setGlobalVariable(&quot;token&quot;, CryptoJS.MD5(TOKEN+ts));\n</code></pre><h3>结果处理扩展</h3>\n<p><strong>代码文件</strong>: <em>util/extender.js</em>\n给express的response添加扩展方法, 简化使用. 例如:</p>\n<pre class=\"prettyprint language-js\"><code>&#x2F;&#x2F; 无需返回数据\nres.success()\n\n&#x2F;&#x2F; 需要返回数据\nres.success(payload)\n\nres.success({\n    accessToken,\n    sysType: getRes.sysType,\n    username: getRes.username,\n    avatar: getRes.avatar,\n    redirectUrl,\n})\n</code></pre><h3>接口请求日志</h3>\n<p><strong>代码文件</strong>: <em>midware/httplog.js</em>\n记录请求地址, 请求数据, 响应数据, 响应状态码及处理时长. 例如:</p>\n<pre class=\"prettyprint language-text\"><code>2018-02-02 13:23:46 - [B1qkId-Lf] Start  POST &#x2F;login\n2018-02-02 13:23:46 - [B1qkId-Lf] Data   {&quot;sysType&quot;:1,&quot;username&quot;:&quot;unittest&quot;,&quot;password&quot;:&quot;e10adc3949ba59abbe56e057f20f883e&quot;}\n2018-02-02 13:23:46 - [B1qkId-Lf] Resp   {&quot;code&quot;:1,&quot;msg&quot;:&quot;success&quot;,&quot;data&quot;:{&quot;accessToken&quot;:&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVuaXR0ZXN0IiwiaWF0IjoxNTE3NTQ5MDI2LCJleHAiOjE1MTg0MTMwMjZ9.-U4P6ksOUN6WsmI3ZEWow9npYDmO-QI020eVY5Mg2bQ&quot;,&quot;sysType&quot;:1,&quot;username&quot;:&quot;unittest&quot;,&quot;avatar&quot;:&quot;https:&#x2F;&#x2F;nodejs.org&#x2F;static&#x2F;images&#x2F;logo.svg&quot;}}\n2018-02-02 13:23:46 - [B1qkId-Lf] Done   200 (134ms)\n\n2018-02-02 13:23:49 - [SJCJUuZLM] Start  GET &#x2F;verify\n2018-02-02 13:23:49 - [SJCJUuZLM] Resp   {&quot;code&quot;:1,&quot;msg&quot;:&quot;success&quot;,&quot;data&quot;:{&quot;username&quot;:&quot;unittest&quot;}}\n2018-02-02 13:23:49 - [SJCJUuZLM] Done   200 (7ms)\n</code></pre><p>高并发时可通过请求ID来找到同一次请求的多行日志记录.\n通过给原生res.json方法增加一个切面来实现非侵入记录响应数据:</p>\n<pre class=\"prettyprint language-js\"><code>&#x2F;&#x2F; add a logging aspect to the primary res.json function\nconst origin = express.response.json\nexpress.response.json = function (json) {\n    logger.info(&#96;[${this.reqId}] Resp  &#96;, JSON.stringify(json))\n    return origin.call(this, json)\n}\n</code></pre><p>支持日志在线预览, 可在浏览器查看日志文件内容(首次会有http auth认证):\n<img src=\"https://raw.githubusercontent.com/xiaozhongliu/xiaozhongliu.github.io/master/assets/posts/20180202/httpauth.png\" alt></p>\n<p><img src=\"https://raw.githubusercontent.com/xiaozhongliu/xiaozhongliu.github.io/master/assets/posts/20180202/httplog.png\" alt>\n当然如果使用的ELK(或者Elastic Stack), 则对于一次请求最好就输出一行json, 以方便logstash或者filebeat抓取.</p>\n<h3>服务监控面板</h3>\n<p><strong>代码文件</strong>: <em>midware/monitor.js</em>\n可以打开这个地址查看服务监控面板(首次会有http auth认证): /dashboard\n<img src=\"https://raw.githubusercontent.com/xiaozhongliu/xiaozhongliu.github.io/master/assets/posts/20180202/dashboard.png\" alt></p>\n<h3>Jest接口测试</h3>\n<p><strong>代码文件</strong>: <em>test/base.test.js</em>\n已经集成VSC Jest测试配置, 选择Jest All这个profile, 加断点并F5即可开始调试. 或者对当前打开的文件选择Jest File这个profile.\n我开始用Jest的时候它才8000多star, 和ava差不多并列第三, 但现在已经排第一了, 不得不服自己的眼光, 啊哈哈哈哈…嗝. 样例:</p>\n<pre class=\"prettyprint language-js\"><code>describe(&#x27;base ctrl tests&#x27;, () =&gt; {\n\n    test(&#x27;login succeeds    &#x27;, async () =&gt; {\n        const data = {\n            sysType: 1,\n            username: &#x27;unittest&#x27;,\n            password: &#x27;e10adc3949ba59abbe56e057f20f883e&#x27;\n        }\n\n        const res = await client.POST(&#96;${host}&#x2F;login&#96;, data)\n        expect(res.code).toBe(1)\n        expect(res.data.username).toBe(&#x27;unittest&#x27;)\n    })\n\n    test(&#x27;login fails       &#x27;, async () =&gt; {\n        const data = {\n            sysType: 1,\n            username: &#x27;unittest&#x27;,\n            password: &#x27;invalid password&#x27;\n        }\n\n        const res = await client.POST(&#96;${host}&#x2F;login&#96;, data)\n        expect(res.code).toBe(message.LoginFail.code)\n    })\n})\n</code></pre><p>执行npm t, 测试结果如下:<br>\n<img src=\"https://raw.githubusercontent.com/xiaozhongliu/xiaozhongliu.github.io/master/assets/posts/20180202/testresult.png\" alt></p>\n<h3>接口示例说明</h3>\n<p>提供了3个基于jsonwebtoken (jwt) 的接口示例: 注册, 登录, 验证.\n验证接口仅供参考, 实际使用时应在中间件中验证jwt, 这样的中间件类似:</p>\n<pre class=\"prettyprint language-js\"><code>module.exports = async (req, res, next) =&gt; {\n    if (\n        ![\n            &#x27;&#x2F;path&#x2F;needs&#x2F;jwt&#x2F;verification&#x27; &#x2F;&#x2F; TODO: 考虑放到配置\n        ].includes(req.path)\n    ) {\n        return next()\n    }\n\n\n    &#x2F;&#x2F; &#x2F;&#x2F; test generating a jwt token\n    &#x2F;&#x2F; const jwtToken = await jwtSvc.sign({\n    &#x2F;&#x2F;     foo: &#x27;bar&#x27;\n    &#x2F;&#x2F; })\n    &#x2F;&#x2F; console.log(jwtToken)\n\n\n    &#x2F;&#x2F; verify\n    const { authorization } = req.headers\n    if (!authorization) {\n        return next(new Error(&#x27;verify fail&#x27;)) &#x2F;&#x2F; TODO: 修改错误处理, 下同\n    }\n    const jwtToken = authorization.substr(7)\n\n    let payload\n    try {\n        payload = await jwtSvc.verify(jwtToken)\n    } catch (e) {\n        return next(new Error(&#x27;verify fail&#x27;))\n    }\n    if (!payload) {\n        return next(new Error(&#x27;verify fail&#x27;))\n    }\n\n\n    console.log(payload) &#x2F;&#x2F; TODO: 设置到req上, 后续就能拿到\n\n\n    next()\n}\n</code></pre><h3>thunk函数包装</h3>\n<p><strong>代码文件</strong>: <em>service/*.js</em>\nnode进化到今天, 用原生async/await做代码异步流程控制也已经好久了. 很多库提供了基于promise的API, 但难免还有很多基于thunk的库, 或者同时提供了promise的API但还不完善的库.\n对于thunk函数我们可以使用node提供的util.promisify来包装为promise. 例如:</p>\n<pre class=\"prettyprint language-js\"><code>   &#x2F;**\n    * set value of a hash field\n    * @param {string} key      hash key\n    * @param {string} field    field name\n    * @param {string} value    field value\n    *&#x2F;\n    async hset(key, field, value) {\n        if (typeof value === &#x27;object&#x27;) {\n            value = JSON.stringify(value)\n        }\n        return promisify(redis.hset)(key, field, value)\n    },\n\n   &#x2F;**\n    * get value of a hash field\n    * @param {string} key      hash key\n    * @param {string} field    field name\n    *&#x2F;\n    async hget(key, field) {\n        const value = await promisify(redis.hget)(key, field)\n        try {\n            return JSON.parse(value)\n        } catch (e) {\n            return value\n        }\n    },\n</code></pre></div>",
+    "title": "Node API经验与种子项目分享 (二)功能详解",
+    "last_reply_at": "2018-02-05T08:03:44.877Z",
+    "good": false,
+    "top": false,
+    "reply_count": 2,
+    "visit_count": 248,
+    "create_at": "2018-02-04T15:51:45.571Z",
+    "author": {
+      "loginname": "XiaozhongLiu",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/17674404?v=4&s=120"
+    }
+  }, {
+    "id": "5a77c5bb5321b5396004eb87",
+    "author_id": "59ddd97061932717683d2238",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><p>github 地址 <a href=\"https://github.com/game-helper/eleme\">https://github.com/game-helper/eleme</a></p>\n<h2>使用</h2>\n<ul>\n<li>安装 Node.js 9.x +</li>\n<li><code>npm i</code> 安装依赖</li>\n<li>编辑 <a href=\"https://github.com/game-helper/eleme/blob/master/%E6%8B%BC%E6%89%8B%E6%B0%94%E7%BA%A2%E5%8C%85/src/index.js\">src/index.js</a> 中的 <code>mobile</code>（要领红包的手机号码） 和 <code>url</code>（饿了么红包链接）</li>\n<li><code>npm start</code> 自动秒红包</li>\n</ul>\n<p>本地运行太麻烦？访问 <a href=\"http://www.elemhb.top/\">http://www.elemhb.top/</a> 在线服务</p>\n<h2>截图</h2>\n<p>以下为脚本运行结果</p>\n<p><img src=\"https://user-images.githubusercontent.com/8413791/35775069-7f07ce46-09bc-11e8-8fc4-6bbe983c089d.png\" alt>\n<img src=\"https://user-images.githubusercontent.com/8413791/35775073-a36248f2-09bc-11e8-905a-0630d4c11714.png\" alt>\n<img src=\"https://user-images.githubusercontent.com/8413791/35775092-1b3447c2-09bd-11e8-89a7-6a60fd9219ff.png\" alt></p>\n<blockquote>\n<p>切记不要用手机打开分享的红包链接，因为进页面就领取了红包，没法再领最佳红包了</p>\n</blockquote>\n</div>",
+    "title": "Node.js 一键领取饿了么手气最佳红包 开源",
+    "last_reply_at": "2018-02-05T06:40:26.274Z",
+    "good": false,
+    "top": false,
+    "reply_count": 4,
+    "visit_count": 500,
+    "create_at": "2018-02-05T02:47:23.703Z",
+    "author": {
+      "loginname": "zhuweiyou",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8413791?v=4&s=120"
+    }
+  }, {
+    "id": "5a77ef355e20f00d1427ff18",
+    "author_id": "597db5e3e72077ff35fbbea6",
+    "tab": "share",
+    "content": "<div class=\"markdown-text\"><h3>前言</h3>\n<p>在学习react的过程中，深深的被react的函数式编程的模式所吸引，一切皆组件，所有的东西都是JavaScript。React框架其实功能很单一，主要负责渲染的功能，但是社区很活跃，衍生出了很多优秀的库和工具。个人觉得，想要做好一个项目，往往需要其他库和工具的配合，例如<code>redux</code>管理数据，<code>react-router</code>管理路由等，掌握基本的<code>webpack配置</code>和<code>es6语法</code>，然后想要提高性能，还有配合react的钩子函数和<code>immutable.js</code>，什么时候组件不需要重新渲染，<code>next.js</code>服务端渲染等等…\n一直有一个想法就是重构自己的博客，刚好这段时间放假，又刚好学习了react，于是就有了这个项目。</p>\n<blockquote></blockquote>\n<p><strong>项目地址</strong>：<a href=\"https://github.com/k-water/react-blog\">https://github.com/k-water/react-blog</a>\n如果觉得不错的话，您可以点右上角 “Star” 支持一下 谢谢！ ^_^</p>\n<h3>技术栈</h3>\n<p><strong>前端</strong></p>\n<ul>\n<li>react</li>\n<li>react-redux</li>\n<li>react-thunk</li>\n<li>react-router</li>\n<li>axios</li>\n<li>eslint</li>\n<li>maked</li>\n<li>highlight.js</li>\n<li>antd</li>\n<li>es6/7/8</li>\n</ul>\n<p><strong>后台</strong></p>\n<ul>\n<li>spring boot</li>\n</ul>\n<p>此项目采用前后端分离的实现，后台接口基于RESTful规范设计，只提供数据，前端负责路由跳转，权限限制，渲染数据等。PS：由于我是个前端er，所以这里主要讲的是前端。</p>\n<h3>实现的功能</h3>\n<ul>\n<li>[x] admin增删查改博客</li>\n<li>[x] 博客标签</li>\n<li>[x] 博客内容markdown</li>\n<li>[x] 博客内容页展示目录</li>\n<li>[x] 返回顶部</li>\n<li>[x] markdown代码高亮</li>\n<li>[x] 用户登录注册</li>\n<li>[x] 用户评论</li>\n<li>[x] 响应式</li>\n</ul>\n<h3>TODO</h3>\n<ul>\n<li>[ ]  博客分类</li>\n<li>[ ] 点击标签搜索相关博客</li>\n<li>[ ] 优化首页侧边栏</li>\n<li>[ ] 完善归档</li>\n<li>[ ] 部署上线</li>\n</ul>\n<h3>效果预览</h3>\n<h4>首页</h4>\n<p><img src=\"https://oc1gyfe6q.qnssl.com/18-2-5/20891733.jpg\" alt></p>\n<h4>内容页</h4>\n<p><img src=\"https://oc1gyfe6q.qnssl.com/18-2-5/60787720.jpg\" alt></p>\n<h4>用户登录</h4>\n<p><img src=\"https://oc1gyfe6q.qnssl.com/18-2-5/93902966.jpg\" alt></p>\n<h4>用户评论</h4>\n<p><img src=\"https://oc1gyfe6q.qnssl.com/18-2-5/17032816.jpg\" alt></p>\n<h4>后台管理</h4>\n<p><img src=\"https://oc1gyfe6q.qnssl.com/18-2-5/41492220.jpg\" alt></p>\n<p><img src=\"https://oc1gyfe6q.qnssl.com/18-2-5/45917169.jpg\" alt></p>\n<p><img src=\"https://oc1gyfe6q.qnssl.com/18-2-5/51225877.jpg\" alt></p>\n<h3>个人总结</h3>\n<h4>markdown渲染</h4>\n<p>在前端渲染markdown的时候遇到了一点问题，相关的包很多，但是各种包解析的结果都有差异，react周边社区推荐的是<code>react-markdown</code>,使用方法也很简单</p>\n<pre class=\"prettyprint language- javascript\"><code>import ReactMarkdown from &#x27;react-markdown&#x27;\n\nconst input = &#x27;# This is a header\\n\\nAnd this is a paragraph&#x27;\nReactDOM.render(\n    &lt;ReactMarkdown source={input} &#x2F;&gt;,\n    document.getElementById(&#x27;container&#x27;)\n)\n</code></pre><p>但是发现<code>react-markdown</code>对表格的支持不太友好，最后采用了<a href=\"https://github.com/chjj/marked\">marked</a>，结合<code>highlight.js</code>对代码部分实现高亮</p>\n<pre class=\"prettyprint language- javascript\"><code>import marked from &#x27;marked&#x27;\nimport hljs from &#x27;highlight.js&#x27;\n  componentWillMount() {\n    marked.setOptions({\n      highlight: code =&gt; hljs.highlightAuto(code).value\n    })\n  }\n</code></pre><p>最后解析出来的是一个字符串，还需要将它插入<code>dom</code>中，由于安全问题，<code>React</code>不提倡将字符串直接插入<code>dom</code>中，但React保留了一个API，可以这样做：</p>\n<pre class=\"prettyprint language- html\"><code>&lt;div className=&quot;article-detail&quot; \n  dangerouslySetInnerHTML={{ __html: marked(output)) }} &#x2F;&gt;\n</code></pre><h4>React组件化</h4>\n<p>react的组件由dom视图和state组成，state是数据中心，它的状态决定着视图的状态。react只负责UI的渲染，与其他框架监听数据动态改变dom不同，react采用setState来控制视图的更新。setState会自动调用render函数，触发视图的重新渲染，如果仅仅只是state数据的变化而没有调用setState，并不会触发更新。说到组件，就必须了解react组件的<code>生命周期</code>，官方的图解如下：</p>\n<p><img src=\"https://oc1gyfe6q.qnssl.com/18-2-5/13398466.jpg\" alt></p>\n<p>关于这部分的解释网上有很多，可以自行查阅。而我在开发过程用的最多的就是</p>\n<ul>\n<li>componentWillMount()</li>\n<li>componentDidMount()</li>\n<li>shouldComponentUpdate(nextProps, nextState)\n这几个钩子函数了，关于性能优化，可以在<code>shouldComponentUpdate</code>上作文章，由于<code>shouldComponentUpdate</code>默认返回<code>true</code>，简单的方法可以通过比较更新前后的数据结构是否相同来判断组件是否需要重新渲染，这时候就可以采用<code>immutable.js</code>了。</li>\n</ul>\n<h4>组件之间通信</h4>\n<p>react是单向数据流，自上而下的传递数据。解决复杂组件之间通信的方法有很多。一般父子组件通信是最简单的，父组件将一个回调函数传递给子组件，子组件通过<code>this.props</code>直接调用该函数与父组件通信。</p>\n<p>如果组件之间嵌套很深，可以使用上下文getChildContext来传递信息，这样在不需要将函数一层层往下传，任何一层的子级都可以通过this.context直接访问，react-redux内部实现就是利用此方法。</p>\n<p>兄弟组件之间无法直接通信，它们需要利用同一层的上级作为中转站。</p>\n<h4>Redux</h4>\n<p>redux不是必须的，如果不是复杂的组件通信，逻辑简单，用context就行。redux并不是react特有的，其他框架也可以使用redux。当初为了学习redux花费了不少时间，一开始并不理解redux中间的操作，看了很多前辈们写的文章才逐渐明白。简单说说redux。\n<strong>redux由三部分组成：store, reducer, action</strong></p>\n<p><img src=\"https://oc1gyfe6q.qnssl.com/18-2-5/1307277.jpg\" alt></p>\n<p>store是一个对象，它主要由三个方法：\n<strong>dispatch</strong>\n用于action的分发，当action传入dispatch会立即执行，有些时候我们不想它立刻触发，可以在<code>createStore</code>中使用middleware中间件对dispatch进行改造，例如redux-thunk，不过这是react-radux做的事了。\n<strong>subscribe</strong>\n顾名思义，监听器，监听state的变化，这个函数在store调用dispatch时会注册一个listener监听state变化。\n<strong>getState</strong>\n获取store中的state，当我们用action触发reducer改变了state时，需要拿到新的state里面的数据。getState在两个地方会用到，一是通过dispatch提交action后store需要拿到state里面的数据，二是利用subscribe监听到state发生变化后调用它来获取新的state数据。</p>\n<p>说了这么多，store的核心代码其实很短：</p>\n<pre class=\"prettyprint language- javascript\"><code>&#x2F;**\n * 应用观察者模式\n * @param {Object} state\n * @param {Function} reducer\n *&#x2F;\nfunction createStore(reducer) {\n  let state = null\n  const listeners = []\n  const subscribe = listener =&gt; listeners.push(listener)\n  const getState = () =&gt; state\n  const dispatch = action =&gt; {\n    &#x2F;&#x2F; 覆盖原对象\n    state = reducer(state, action)\n    listeners.forEach(listener =&gt; listener())\n  }\n  &#x2F;&#x2F; 初始化state\n  dispatch({})\n  return {\n    getState,\n    dispatch,\n    subscribe\n  }\n}\n</code></pre><p>另一部分，<code>reducer</code>是一个纯函数(pure function)，它接收一个state和action作为参数，根据action的type返回一个新的state，如果传入的action type没有匹配到，则返回默认的state，简单实现如下：</p>\n<pre class=\"prettyprint language- javascript\"><code>function reducer(state, action) {\n  if (!state) {\n    return {\n      title: {\n        text: &quot;water make redux&quot;,\n        color: &quot;red&quot;\n      },\n      content: {\n        text: &quot;water make redux&quot;,\n        color: &quot;green&quot;\n      }\n    }\n  }\n  switch (action.type) {\n    case &quot;UPDATE_TITLE_TEXT&quot;:\n      return {\n        ...state,\n        title: {\n          ...state.title,\n          text: action.text\n        }\n      }\n    case &quot;UPDATE_TITLE_COLOR&quot;:\n      return {\n        ...state,\n        title: {\n          ...state.title,\n          color: action.color\n        }\n      }\n    default:\n      return state\n  }\n}\n</code></pre><p>action比较简单，它返回一个对象，其中type属性是必须的，同时也可以传入一些其他的数据。\n使用例子如下：</p>\n<pre class=\"prettyprint language- javascript\"><code>&#x2F; 生成store\nconst store = createStore(reducer)\nlet oldState = store.getState()\n&#x2F;&#x2F; 监听数据变化重新渲页面\nstore.subscribe(() =&gt; {\n  const newState = store.getState()\n  renderApp(newState, oldState)\n  oldState = newState\n})\n&#x2F;&#x2F; 首次渲染页面\nrenderApp(store.getState())\nstore.dispatch({\n  type: &quot;UPDATE_TITLE_TEXT&quot;,\n  text: &quot;water is fighting&quot;\n})\nstore.dispatch({\n  type: &quot;UPDATE_TITLE_COLOR&quot;,\n  color: &quot;#f00&quot;\n})\n</code></pre><h4>React-redux</h4>\n<p><code>react-redux</code>则是对redux做了封装，可以在react中直接使用，并且提供了<code>Provider</code>和<code>connect</code>。\n<strong>Provider</strong>是一个组件，它接受store作为props，然后通过context往下传，这样react中任何组件都可以通过context获取store。\n<strong>connect</strong>是一个函数，也是一个高阶组件(HOC)，通过传入state和dispatch返回一个新的组件，它的写法是如下：</p>\n<pre class=\"prettyprint language- javascript\"><code>connect(mapStateToProps, mapDispatchToProps, mergeProps, options)(component)\n</code></pre><p>也可以采用装饰器的写法，这需要babel的支持：</p>\n<pre class=\"prettyprint language- javascript\"><code>@connect(\n\tstate,\n\t{ func }\n)\n</code></pre><p>具体的不多介绍，迷你实现可以看看这个项目：<a href=\"https://github.com/k-water/make-react-redux\">https://github.com/k-water/make-react-redux</a></p>\n<p>最后，star是对我最大的支持~</p>\n</div>",
+    "title": "React构建个人博客",
+    "last_reply_at": "2018-02-05T05:44:21.370Z",
+    "good": false,
+    "top": false,
+    "reply_count": 0,
+    "visit_count": 228,
+    "create_at": "2018-02-05T05:44:21.370Z",
+    "author": {
+      "loginname": "k-water",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/17759275?v=4&s=120"
+    }
+  }, {
+    "id": "5a684e92ce45d440451462e5",
+    "author_id": "5981d3f607cef83a617709b3",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>（场景是：有很多个controller,每个controller内部的代码除了controller的名称以外全部都一样，只需要把名称换一下。但是我不想复制粘贴几十个这样的controller）</p>\n<p><img src=\"//dn-cnode.qbox.me/FmJdsYhZG-xUUJ2RhLFfwHJ_mALO\" alt=\"Angular代码如何封装复用1.png\"><img src=\"//dn-cnode.qbox.me/FlZS-KRgjQ5dIXVmfC-pZum54ZXT\" alt=\"Angular代码如何封装复用2.png\"></p>\n</div>",
+    "title": "如何封装和复用AngularJS的代码",
+    "last_reply_at": "2018-02-05T05:05:54.987Z",
+    "good": false,
+    "top": false,
+    "reply_count": 26,
+    "visit_count": 857,
+    "create_at": "2018-01-24T09:14:58.594Z",
+    "author": {
+      "loginname": "CodeingShow",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/30278353?v=4&s=120"
+    }
+  }, {
+    "id": "5a76a7665e20f00d1427fed5",
+    "author_id": "5a5c0a17a3692d014f4f1477",
+    "tab": "ask",
+    "content": "<div class=\"markdown-text\"><p>项目是 vue+axios\naxios配置了代理\n<img src=\"//dn-cnode.qbox.me/Forae0-7pvVzZhRbi85A56ttmHFj\" alt=\"%1U%NO8X@BA3L%~[YP{A%]P.png\"></p>\n<p>可以实现跨越了，但是问题马上就来了</p>\n<p>如果请求的地址，返回的协议头带有location 就会进行重定向 获取数据。。那么久又不夸域了，，，\n<img src=\"//dn-cnode.qbox.me/FpgvBiwly-WkO1NoqpHFC9Y_Q2nV\" alt=\"1UK0H5XPFCPB%@JI$Z37{1W.png\"></p>\n<p><img src=\"//dn-cnode.qbox.me/Fo1a7SzGaKdJiMPxSXHiT1wHKJpX\" alt=\"234.png\"></p>\n<p>除了自己在写后台 进行封装处理 之外，，前端还有什么方法，，，，求赐教</p>\n</div>",
+    "title": "不一样的跨域问题",
+    "last_reply_at": "2018-02-05T02:49:28.923Z",
+    "good": false,
+    "top": false,
+    "reply_count": 3,
+    "visit_count": 250,
+    "create_at": "2018-02-04T06:25:42.805Z",
+    "author": {
+      "loginname": "1160007652",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/26641790?v=4&s=120"
+    }
+  }]
+}
