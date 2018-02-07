@@ -24,4 +24,7 @@ body {
 ul li{
   list-style: none;
 }
+a{
+  cursor: pointer;
+}
 </style>
