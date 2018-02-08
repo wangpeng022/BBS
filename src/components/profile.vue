@@ -4,25 +4,29 @@
              <header>
                 <router-link to="/">主页/</router-link>
             </header>
-            <div class="profile_header">
+            <div class="profile_header1">
                 <img :src="user_info.avatar_url" :alt="user_info.loginname">
                  <span class="profile_name">{{user_info.loginname}}</span>
                 <ul>
                     <li>{{user_info.score}}积分</li>
                     <li>333个话题收藏</li>
-                    <li>http://{{user_info.githubUsername}}.github.io</li>
                     <li>
-                        <!-- <a :href="'http://github.com/'+{{user_info.githubUsername}}">
-                            @{{user_info.githubUsername}}
-                        </a> -->
-                        <a href="#">
+                        <a :href='"http://"+user_info.githubUsername+".github.io"'>
+                            http://{{user_info.githubUsername}}.github.io
+                        </a></li>
+                    <li>
+                        <a :href="'http://github.com/'+user_info.githubUsername">
                             @{{user_info.githubUsername}}
                         </a>
                     </li>
-                    <li>http://weibo.com/liuyong25</li>
+                    <li>
+                        <a :href="'http://weibo.com/'+user_info.githubUsername">
+                        http://weibo.com/{{user_info.githubUsername}}
+                        </a>
+                    </li>
                 </ul>
                 <br/>
-                <p>注册时间 6 年前</p>
+                <p>注册时间:{{user_info.create_at|formatDate}}</p>
             </div>
         </div>
         <div class="main">
@@ -30,35 +34,43 @@
                 <p>最近创建的话题</p>
             </header>
             <div class="profile_header">
-                <img src="https://avatars1.githubusercontent.com/u/227713?v=3&s=120" alt="atian25">
-                 <span class="profile_name">atian25</span>
-                <ul>
-                    <li>234324积分</li>
-                    <li>333个话题收藏</li>
-                    <li>http://atian25.github.io</li>
-                    <li>@atian25</li>
-                    <li>http://weibo.com/liuyong25</li>
+                <ul v-for="(item,index) in recent_topics" :key="item.id">
+                    <li v-if = "index <= 5">
+                        <img class="img" :src="item.author.avatar_url" :alt="item.author.loginname">
+                        <!-- <span class="profile_name">{{item.author.loginname}}</span> -->
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <a href="#">
+                            <span class="title_1">{{item.title}}</span>
+                        </a>
+                        <span class="last_reply">{{item.last_reply_at|formatDate}}</span>
+                    </li>
                 </ul>
                 <br/>
-                <p>注册时间 6 年前</p>
+                <p>更多内容</p>
             </div>
         </div>
         <div class="main">
              <header>
-               <p>最近参与的话题</p>
+                <p>最近参与的话题</p>
             </header>
             <div class="profile_header">
-                <img src="https://avatars1.githubusercontent.com/u/227713?v=3&s=120" alt="atian25">
-                 <span class="profile_name">atian25</span>
-                <ul>
-                    <li>234324积分</li>
-                    <li>333个话题收藏</li>
-                    <li>http://atian25.github.io</li>
-                    <li>@atian25</li>
-                    <li>http://weibo.com/liuyong25</li>
+                <ul v-for="(item,index) in recent_replies" :key="item.id">
+                    <li v-if = "index <= 5">
+                        <img class="img" :src="item.author.avatar_url" :alt="item.author.loginname">
+                        <!-- <span class="profile_name">{{item.author.loginname}}</span> -->
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                        <a href="#">
+                            <span class="title_1">{{item.title}}</span>
+                        </a>
+                        <span class="last_reply">{{item.last_reply_at|formatDate}}</span>
+                    </li>
                 </ul>
                 <br/>
-                <p>注册时间 6 年前</p>
+                <p>更多内容</p>
             </div>
         </div>
     </div>
@@ -69,7 +81,9 @@ import MHeader from './header'
     export default {
         data () {
             return {
-                user_info:[]
+                user_info:[],
+                recent_topics:[],
+                recent_replies:[]
             }
         },
         mounted () {
@@ -80,10 +94,9 @@ import MHeader from './header'
                 axios.get(`https://cnodejs.org/api/v1/user/${this.$route.params.id}`)
                 .then((res)=>{
                     this.user_info = res.data.data;
-                    console.log(res.data.data);
-
-
-
+                    this.recent_replies = this.user_info.recent_replies;
+                    this.recent_topics = this.user_info.recent_topics
+                    console.log( this.recent_replies);
                 })
             }
         }
@@ -95,6 +108,10 @@ import MHeader from './header'
         margin: 15px auto;
         width: 1100px;
         color: #777;
+        a{
+            color: #555;
+            text-decoration: none;
+        }
         header{
             width: 100%;
             height: 20px;
@@ -106,7 +123,7 @@ import MHeader from './header'
                 text-decoration: none;
             }
         }
-        .profile_header{
+        .profile_header,.profile_header1{
             width: 100%;
             background-color: #fff;
             font-size: 14px;
@@ -118,13 +135,34 @@ import MHeader from './header'
                 border-radius: 3px;
                 vertical-align: top;
             }
+            .img{
+                width: 30px;
+                height: 30px;
+                border-radius: 3px;
+            }
+
             .profile_name{
                 margin-bottom: 20px;
             }
             ul li{
-                line-height: 28px;
+                height: 30px;
+                line-height: 30px;
+                padding: 10px;
+                .title_1{
+                    font-size: 16px;
+                    color: #08c;
+                }
+                .last_reply{
+                    float: right;
+                    padding-right: 10px;
+                }
             }
 
+        }
+        .profile_header1{
+            ul li{
+               padding: 0;
+            }
         }
 
     }

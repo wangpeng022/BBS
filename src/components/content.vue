@@ -60,6 +60,9 @@ export default {
       line-height: 30px;
       padding: 10px;
       border-bottom: rgb(231,231,231) 1px solid;
+      &:nth-child(2n){
+        background-color: #f9f9f9;
+      }
       &:hover {
         background-color: #f6f6f6;
       }
